@@ -1,0 +1,3 @@
+rootProject.name = 'Sonarr'
+
+include ':app'
