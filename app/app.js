@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
-// import {StyleSheet, View, Text} from 'react-native';
+import {AsyncStorage, View} from 'react-native';
 // import codePush, {InstallMode} from 'react-native-code-push';
 // import {connect} from 'react-redux';
 // import {bindActionCreators} from 'redux';
 // import {getSeries} from './actions/series';
+import * as apiActions from './actions/api';
+import {STORAGE_KEY} from './constants/variables';
 import SeriesList from './components/Series/SeriesList';
-import Immutable from 'immutable';
+import ConfigureApp from './components/InitialSetup/ConfigureApp';
 
+
+import Immutable from 'immutable';
 import installDevTools from 'immutable-devtools'; // TODO remove from production !!
 installDevTools(Immutable); // TODO remove from production !!
 
@@ -20,15 +24,34 @@ class App extends Component {
     super();
     this.state = {
       initialLoad: true,
+      keyFound: false,
     };
   }
 
-  componentDidMount() {
-    // todo
+  async componentDidMount() {
+    const data = await AsyncStorage.getItem(STORAGE_KEY);
+    this.setState({initialLoad: false}); // eslint-disable-line
+    if (data) {
+      const {hostname, apiKey} = JSON.parse(data);
+      apiActions.setHostname(hostname);
+      apiActions.setApiKey(apiKey);
+      this.setState({keyFound: true}); // eslint-disable-line
+    }
   }
 
 
   render() {
+    if (this.state.initialLoad && !this.state.keyFound) {
+      return (
+        <View style={{flex: 1, backgroundColor: 'white'}} />
+      );
+    }
+
+    if (!this.state.keyFound && !this.state.initialLoad) {
+      return (
+        <ConfigureApp />
+      );
+    }
     return (
       <SeriesList />
     );

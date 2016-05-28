@@ -1,19 +1,22 @@
 import axios from 'axios';
 
-console.log('API KEY', process.env.SONARR_API_KEY);
+let API_KEY = '';
+let HOSTNAME = '';
 
-function request(method, url, body, baseURL = 'http://10.0.1.10:8989/api') { // TODO
+function request(method, url, body, baseURL = HOSTNAME) {
+  console.log('baseUr', HOSTNAME);
+  console.log('apikey', API_KEY);
   const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    'X-Api-Key': process.env.SONARR_API_KEY, // TODO
+    'X-Api-Key': API_KEY,
   };
 
   const config = {
     headers,
     method,
     data: JSON.stringify(body),
-    url: `${baseURL}${url}`,
+    url: `${baseURL}/api${url}`,
   };
 
   return axios(config)
@@ -35,4 +38,12 @@ export function put(url, data) {
 
 export function remove(url, data) {
   return request('delete', url, data);
+}
+
+export function setApiKey(key) {
+  API_KEY = key;
+}
+
+export function setHostname(host) {
+  HOSTNAME = host;
 }
