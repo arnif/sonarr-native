@@ -5,6 +5,8 @@ import {handleActions} from 'redux-actions';
 const initialState = Immutable.fromJS({
   series: null,
   pending: false,
+  serieEpisodes: null,
+  episodePending: false,
 });
 
 const actions = {
@@ -14,6 +16,14 @@ const actions = {
         return state.merge({pending, error});
       }
       return state.merge({pending, error, series: payload});
+    },
+  },
+  [Series.getEpisodes]: {
+    next(state, {payload, error, pending}) {
+      if (pending || error) {
+        return state.merge({episodePending: pending, error});
+      }
+      return state.merge({episodePending: pending, error, serieEpisodes: payload});
     },
   },
 };

@@ -4,8 +4,6 @@ let API_KEY = '';
 let HOSTNAME = '';
 
 function request(method, url, body, baseURL = HOSTNAME) {
-  console.log('baseUr', HOSTNAME);
-  console.log('apikey', API_KEY);
   const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',

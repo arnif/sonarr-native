@@ -43,6 +43,7 @@ class SeriesList extends Component {
   navigate(serie) {
     this.props.navigator.push({
       component: SerieDetails,
+      index: 1,
       name: serie.get('title'),
       passProps: {
         serie,
@@ -65,7 +66,6 @@ class SeriesList extends Component {
           )
         }
         enableEmptySections
-        // contentInset={{bottom: 64}}
         refreshControl={
           <RefreshControl
             tintColor="black"
