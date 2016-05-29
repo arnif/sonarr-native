@@ -6,7 +6,8 @@ import {AsyncStorage, View} from 'react-native';
 // import {getSeries} from './actions/series';
 import * as apiActions from './actions/api';
 import {STORAGE_KEY} from './constants/variables';
-import SeriesList from './components/Series/SeriesList';
+// import SeriesList from './components/Series/SeriesList';
+import Navigation from './components/Navigation/Navigation';
 import ConfigureApp from './components/InitialSetup/ConfigureApp';
 
 
@@ -53,7 +54,7 @@ class App extends Component {
       );
     }
     return (
-      <SeriesList />
+      <Navigation />
     );
   }
 }

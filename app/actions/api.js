@@ -44,6 +44,14 @@ export function setApiKey(key) {
   API_KEY = key;
 }
 
+export function getApiKey() {
+  return API_KEY;
+}
+
 export function setHostname(host) {
   HOSTNAME = host;
+}
+
+export function getHostName() {
+  return HOSTNAME;
 }

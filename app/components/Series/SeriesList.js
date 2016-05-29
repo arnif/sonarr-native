@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getSeries} from '../../actions/series';
 import SeriesItem from './SeriesItem';
+import SerieDetails from './SerieDetails';
 
 
 class SeriesList extends Component {
@@ -12,6 +13,7 @@ class SeriesList extends Component {
     getSeries: PropTypes.func.isRequired,
     series: PropTypes.object,
     pending: PropTypes.bool.isRequired,
+    navigator: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -38,24 +40,35 @@ class SeriesList extends Component {
     });
   }
 
+  navigate(serie) {
+    this.props.navigator.push({
+      component: SerieDetails,
+      name: serie.get('title'),
+      passProps: {
+        serie,
+      },
+    });
+  }
+
 
   render() {
-    const series = this.props.series;
     const pending = this.props.pending;
-    console.log(series);
     return (
       <ListView
-        style={{backgroundColor: 'black'}}
+        style={{backgroundColor: 'white', marginTop: 60}}
         dataSource={this.state.dataSource}
         renderRow={(serie) => (
-          <SeriesItem item={serie} />
+          <SeriesItem
+            onPress={() => this.navigate(serie)}
+            item={serie}
+          />
           )
         }
         enableEmptySections
-        contentInset={{bottom: 64}}
+        // contentInset={{bottom: 64}}
         refreshControl={
           <RefreshControl
-            tintColor="white"
+            tintColor="black"
             refreshing={pending}
             onRefresh={this.props.getSeries}
           />

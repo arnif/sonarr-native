@@ -68,13 +68,13 @@ class ConfigureApp extends Component {
   render() {
     return (
       <View style={styles.root}>
-        <Text style={styles.headline}>Please configure the app</Text>
+        <Text style={styles.headline}>Configure the app</Text>
         <View>
           <Text style={styles.label}>Sonarr IP address</Text>
           <TextInput
             style={styles.textInput}
             onChangeText={(hostname) => this.setState({hostname})}
-            value={this.state.hostname}
+            value={this.state.hostname || apiActions.getHostName()}
             placeholder="http://123.1.2.4:8989"
           />
 
@@ -82,7 +82,7 @@ class ConfigureApp extends Component {
           <TextInput
             style={styles.textInput}
             onChangeText={(apiKey) => this.setState({apiKey})}
-            value={this.state.apiKey}
+            value={this.state.apiKey || apiActions.getApiKey()}
             placeholder="abcd3rdakflk23"
           />
 
