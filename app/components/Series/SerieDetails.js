@@ -4,6 +4,7 @@ import {
   ListView,
   Image,
   View,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -103,7 +104,6 @@ class SerieDetails extends Component {
   }
 
   renderRow(row) {
-    console.log('row', row);
     return (
       <View style={styles.row}>
         <Text style={styles.name} numberOfLines={1}>
@@ -133,12 +133,14 @@ class SerieDetails extends Component {
   }
 
   render() {
-    console.log(this.props);
     const {serie} = this.props;
     const bannerImage = serie.get('images').find((i) => i.get('coverType') === 'fanart').get('url');
     const imageUrl = `http://10.0.1.10:8989${bannerImage}`;
     return (
       <View style={styles.root}>
+        <StatusBar
+          barStyle="light-content"
+        />
         <Image source={{uri: imageUrl}} style={styles.bannerImage} resizeMode="cover" />
         {/* <Text>{serie.get('title')}</Text>*/}
 
@@ -152,11 +154,14 @@ class SerieDetails extends Component {
   }
 }
 
-const stateToProps = (state) => ({
-  episodes: state.Series.get('serieEpisodes'),
-  pending: state.Series.get('episodePending'),
-});
-
+const stateToProps = (state, props) => {
+  const serie = state.Series.get('series').find((s) => s.get('id') === props.serieId);
+  return ({
+    episodes: state.Series.get('serieEpisodes'),
+    serie,
+    pending: state.Series.get('episodePending'),
+  });
+};
 const dispatchToProps = (dispatch) => {
   const actions = {
     getEpisodes,

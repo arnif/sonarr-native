@@ -1,17 +1,22 @@
 import React, {Component, PropTypes} from 'react';
-import {ListView, RefreshControl} from 'react-native';
+import {
+  // View,
+  ListView,
+  // Text,
+  RefreshControl,
+} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getSeries} from '../../actions/series';
-import SeriesItem from './SeriesItem';
-import SerieDetails from './SerieDetails';
+import {getHistory} from '../../actions/history';
+import HistoryItem from './HistoryItem';
+import SerieDetails from '../Series/SerieDetails';
 
 
-class SeriesList extends Component {
+class HistoryList extends Component {
 
   static propTypes = {
-    getSeries: PropTypes.func.isRequired,
-    series: PropTypes.object,
+    getHistory: PropTypes.func.isRequired,
+    history: PropTypes.object,
     pending: PropTypes.bool.isRequired,
     navigator: PropTypes.object.isRequired,
   }
@@ -25,15 +30,16 @@ class SeriesList extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.getSeries();
+  componentWillMount() {
+    // get history
+    this.props.getHistory();
   }
 
   componentWillReceiveProps(nextProps) {
-    const series = nextProps.series;
+    const history = nextProps.history;
     let rows = [];
-    if (series !== null) {
-      rows = series.toArray();
+    if (history !== null) {
+      rows = history.get('records').toArray();
     }
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(rows),
@@ -41,12 +47,13 @@ class SeriesList extends Component {
   }
 
   navigate(serie) {
+    console.log('serie', serie);
     this.props.navigator.push({
       component: SerieDetails,
       index: 1,
-      name: serie.get('title'),
+      name: serie.getIn(['series', 'title']),
       passProps: {
-        serieId: serie.get('id'),
+        serieId: serie.getIn(['series', 'id']),
       },
     });
   }
@@ -54,15 +61,13 @@ class SeriesList extends Component {
 
   render() {
     const pending = this.props.pending;
+    console.log(this.props);
     return (
       <ListView
         style={{backgroundColor: '#F5F8FA', marginTop: 59}}
         dataSource={this.state.dataSource}
-        renderRow={(serie) => (
-          <SeriesItem
-            onPress={() => this.navigate(serie)}
-            item={serie}
-          />
+        renderRow={(item) => (
+          <HistoryItem item={item} onPress={() => this.navigate(item)} />
           )
         }
         enableEmptySections
@@ -70,7 +75,7 @@ class SeriesList extends Component {
           <RefreshControl
             tintColor="#D4D3D3"
             refreshing={pending}
-            onRefresh={this.props.getSeries}
+            onRefresh={this.props.getHistory}
           />
         }
       />
@@ -78,13 +83,16 @@ class SeriesList extends Component {
   }
 }
 
-const stateToProps = (state) => ({series: state.Series.get('series'), pending: state.Series.get('pending')});
+const stateToProps = (state) => ({
+  history: state.History.get('history'),
+  pending: state.History.get('pending'),
+});
 
 const dispatchToProps = (dispatch) => {
   const actions = {
-    getSeries,
+    getHistory,
   };
   return bindActionCreators(actions, dispatch);
 };
 
-export default connect(stateToProps, dispatchToProps)(SeriesList);
+export default connect(stateToProps, dispatchToProps)(HistoryList);

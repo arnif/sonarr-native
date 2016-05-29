@@ -4,7 +4,9 @@ import TabNavigator from 'react-native-tab-navigator';
 // import Icon from 'react-native-vector-icons/Ionicons';
 // import SeriesList from '../Series/SeriesList';
 import SeriesNavigation from './SeriesNavigation';
+import ActivityNavigation from './ActivityNavigation';
 import ConfigureApp from '../InitialSetup/ConfigureApp';
+// import Activity from '../Activity/Activity';
 
 class Navigation extends Component {
   constructor() {
@@ -26,6 +28,16 @@ class Navigation extends Component {
           onPress={() => this.setState({selectedTab: 'series'})}
         >
           <SeriesNavigation />
+        </TabNavigator.Item>
+        <TabNavigator.Item
+          selected={this.state.selectedTab === 'activity'}
+          title="Activity"
+          // renderIcon={() => <Icon name="ios-person" size={30} color="#4F8EF7" />}
+          // renderSelectedIcon={() => <Icon name="ios-person" size={30} color="#FFFFFF" />}
+          // renderBadge={() => <CustomBadgeView />}
+          onPress={() => this.setState({selectedTab: 'activity'})}
+        >
+          <ActivityNavigation />
         </TabNavigator.Item>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'configure'}

@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'white',
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: 'black',
+    borderTopWidth: 1,
+    borderTopColor: '#D4D3D3',
   },
   posterImage: {
     width: 80,

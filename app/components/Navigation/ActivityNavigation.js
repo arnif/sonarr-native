@@ -1,19 +1,18 @@
 import React from 'react';
-import SeriesList from '../Series/SeriesList';
+import Activity from '../Activity/Activity';
 import NavigatorWrapper from './NavigatorWrapper';
 
 
-const SeriesNavigation = () => {
+const ActivityNavigation = () => {
   const initialRoute = {
-    name: 'Series',
+    name: 'History',
     index: 0,
-    component: SeriesList,
+    component: Activity,
     onPress: () => { console.log('press'); },
-    rightText: 'Add',
   };
   return (
     <NavigatorWrapper initialRoute={initialRoute} />
   );
 };
 
-export default SeriesNavigation;
+export default ActivityNavigation;

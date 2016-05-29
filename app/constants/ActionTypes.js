@@ -9,4 +9,7 @@ module.exports = {
     getEpisodes: null,
     downloadEpisode: null,
   }),
+  History: keyMirror({
+    getHistory: null,
+  }),
 };
