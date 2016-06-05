@@ -1,19 +1,29 @@
 import Immutable from 'immutable';
-import {History} from '../constants/ActionTypes';
+import {Activity} from '../constants/ActionTypes';
 import {handleActions} from 'redux-actions';
 
 const initialState = Immutable.fromJS({
   history: null,
+  queue: null,
   pending: false,
 });
 
 const actions = {
-  [History.getHistory]: {
+  [Activity.getHistory]: {
     next(state, {payload, error, pending}) {
       if (pending || error) {
         return state.merge({pending, error});
       }
       return state.merge({pending, error, history: payload});
+    },
+  },
+
+  [Activity.getQueue]: {
+    next(state, {payload, error, pending}) {
+      if (pending || error) {
+        return state.merge({pending, error});
+      }
+      return state.merge({pending, error, queue: payload});
     },
   },
 };

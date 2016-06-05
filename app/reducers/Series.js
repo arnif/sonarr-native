@@ -26,6 +26,7 @@ const actions = {
       return state.merge({episodePending: pending, error, serieEpisodes: payload});
     },
   },
+  [Series.resetEspisodes]: (state) => state.merge({serieEpisodes: null}),
 };
 
 export default handleActions(actions, initialState);

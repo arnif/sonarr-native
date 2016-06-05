@@ -8,8 +8,10 @@ module.exports = {
     getSeries: null,
     getEpisodes: null,
     downloadEpisode: null,
+    resetEspisodes: null,
   }),
-  History: keyMirror({
+  Activity: keyMirror({
     getHistory: null,
+    getQueue: null,
   }),
 };

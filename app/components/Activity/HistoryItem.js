@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {View, StyleSheet, Text, TouchableHighlight} from 'react-native';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
 
 // const screen = Dimensions.get('window');
@@ -18,7 +19,6 @@ const styles = StyleSheet.create({
 
 
 const HistoryItem = ({item, onPress}) => {
-  console.log(item);
   return (
     <View style={styles.root}>
       <TouchableHighlight underlayColor="transparent" onPress={() => onPress()}>
@@ -27,6 +27,9 @@ const HistoryItem = ({item, onPress}) => {
       <Text>{item.getIn(['episode', 'seasonNumber'])}x{item.getIn(['episode', 'episodeNumber'])}</Text>
       <Text>{item.getIn(['episode', 'title'])}</Text>
       <Text>{moment(item.get('date')).fromNow()}</Text>
+      <View>
+        {/* <Icon name="alarm" /> */}
+      </View>
     </View>
   );
 };

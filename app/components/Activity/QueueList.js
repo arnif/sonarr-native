@@ -7,16 +7,16 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getHistory} from '../../actions/activity';
+import {getQueue} from '../../actions/activity';
 import HistoryItem from './HistoryItem';
 import SerieDetails from '../Series/SerieDetails';
 
 
-class HistoryList extends Component {
+class QueueList extends Component {
 
   static propTypes = {
-    getHistory: PropTypes.func.isRequired,
-    history: PropTypes.object,
+    getQueue: PropTypes.func.isRequired,
+    queue: PropTypes.object,
     pending: PropTypes.bool.isRequired,
     navigator: PropTypes.object.isRequired,
   }
@@ -31,15 +31,15 @@ class HistoryList extends Component {
   }
 
   componentWillMount() {
-    // get history
-    this.props.getHistory();
+    // get queue
+    this.props.getQueue();
   }
 
   componentWillReceiveProps(nextProps) {
-    const history = nextProps.history;
+    const queue = nextProps.queue;
     let rows = [];
-    if (history !== null) {
-      rows = history.get('records').toArray();
+    if (queue !== null) {
+      rows = queue.toArray();
     }
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(rows),
@@ -74,7 +74,7 @@ class HistoryList extends Component {
           <RefreshControl
             tintColor="#D4D3D3"
             refreshing={pending}
-            onRefresh={this.props.getHistory}
+            onRefresh={this.props.getQueue}
           />
         }
       />
@@ -83,15 +83,15 @@ class HistoryList extends Component {
 }
 
 const stateToProps = (state) => ({
-  history: state.Activity.get('history'),
+  queue: state.Activity.get('queue'),
   pending: state.Activity.get('pending'),
 });
 
 const dispatchToProps = (dispatch) => {
   const actions = {
-    getHistory,
+    getQueue,
   };
   return bindActionCreators(actions, dispatch);
 };
 
-export default connect(stateToProps, dispatchToProps)(HistoryList);
+export default connect(stateToProps, dispatchToProps)(QueueList);

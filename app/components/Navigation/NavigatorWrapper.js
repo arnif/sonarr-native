@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginLeft: 13,
     marginTop: 2,
-    color: '#3EB5DB',
+    color: 'white',
   },
   rightNavButtonText: {
     fontSize: 18,

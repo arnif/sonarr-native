@@ -12,7 +12,7 @@ import {
 // import Accordion from 'react-native-accordion';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getEpisodes, downloadEpisode} from '../../actions/series';
+import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series';
 import moment from 'moment';
 
 // const screen = Dimensions.get('window');
@@ -65,6 +65,7 @@ class SerieDetails extends Component {
     episodes: PropTypes.object,
     getEpisodes: PropTypes.func.isRequired,
     downloadEpisode: PropTypes.func.isRequired,
+    resetEspisodes: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -79,8 +80,12 @@ class SerieDetails extends Component {
   }
 
   componentWillMount() {
+    this.props.resetEspisodes();
+  }
+
+  componentDidMount() {
     // fetch serie details (seasons etc)
-    this.props.getEpisodes(this.props.serie.get('id'));
+    setTimeout(() => this.props.getEpisodes(this.props.serie.get('id')), 500); // delay otherwise super laggy
   }
 
   componentWillReceiveProps(nextProps) {
@@ -166,6 +171,7 @@ const dispatchToProps = (dispatch) => {
   const actions = {
     getEpisodes,
     downloadEpisode,
+    resetEspisodes,
   };
   return bindActionCreators(actions, dispatch);
 };

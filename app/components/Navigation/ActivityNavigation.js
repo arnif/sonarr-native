@@ -5,7 +5,7 @@ import NavigatorWrapper from './NavigatorWrapper';
 
 const ActivityNavigation = () => {
   const initialRoute = {
-    name: 'History',
+    name: 'Activity',
     index: 0,
     component: Activity,
     onPress: () => { console.log('press'); },
