@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from '../../actions/config';
 import * as apiActions from '../../actions/api';
 import {STORAGE_KEY} from '../../constants/variables';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
   root: {
@@ -52,23 +53,24 @@ class ConfigureApp extends Component {
     };
   }
 
-  async onPressButton() {
+  onPressButton() {
     apiActions.setHostname(this.state.hostname);
     apiActions.setApiKey(this.state.apiKey);
-    const {payload} = await this.props.getConfig();
-    if (payload) {
-      // save to async storage
-      AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
-    } else {
-      Alert.alert('Error', 'Unable to save, please try again');
-    }
+    this.props.getConfig().then(({payload}) => {
+      if (payload) {
+        // save to async storage
+        AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+      } else {
+        Alert.alert('Error', 'Unable to save, please try again');
+      }
+    });
   }
 
 
   render() {
     return (
       <View style={styles.root}>
-        <Text style={styles.headline}>Configure the app</Text>
+        <Text style={styles.headline}>Configure the app <Icon name="rocket" size={30} color="#900" /></Text>
         <View>
           <Text style={styles.label}>Sonarr IP address</Text>
           <TextInput

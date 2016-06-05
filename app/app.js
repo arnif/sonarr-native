@@ -10,7 +10,6 @@ import {STORAGE_KEY} from './constants/variables';
 import Navigation from './components/Navigation/Navigation';
 import ConfigureApp from './components/InitialSetup/ConfigureApp';
 
-
 import Immutable from 'immutable';
 import installDevTools from 'immutable-devtools'; // TODO remove from production !!
 installDevTools(Immutable); // TODO remove from production !!
@@ -29,15 +28,18 @@ class App extends Component {
     };
   }
 
-  async componentDidMount() {
-    const data = await AsyncStorage.getItem(STORAGE_KEY);
-    this.setState({initialLoad: false}); // eslint-disable-line
-    if (data) {
-      const {hostname, apiKey} = JSON.parse(data);
-      apiActions.setHostname(hostname);
-      apiActions.setApiKey(apiKey);
-      this.setState({keyFound: true}); // eslint-disable-line
-    }
+  componentDidMount() {
+      // this.setState({initialLoad: false}); // eslint-disable-line
+    AsyncStorage.getItem(STORAGE_KEY).then((data) => {
+      console.log(STORAGE_KEY);
+      this.setState({initialLoad: false}); // eslint-disable-line
+      if (data) {
+        const {hostname, apiKey} = JSON.parse(data);
+        apiActions.setHostname(hostname);
+        apiActions.setApiKey(apiKey);
+        this.setState({keyFound: true}); // eslint-disable-line
+      }
+    });
   }
 
 

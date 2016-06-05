@@ -14,6 +14,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series';
 import moment from 'moment';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 // const screen = Dimensions.get('window');
 
@@ -130,7 +131,7 @@ class SerieDetails extends Component {
           }
         >
           <Text>
-            Download
+            <Icon name="search" />
           </Text>
         </TouchableHighlight>
       </View>
