@@ -1,12 +1,19 @@
 import React, {Component} from 'react';
-// import {Image} from 'react-native';
+import {StyleSheet} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
-// import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 // import SeriesList from '../Series/SeriesList';
+import {BLUE} from '../../constants/brand';
 import SeriesNavigation from './SeriesNavigation';
 import ActivityNavigation from './ActivityNavigation';
 import ConfigureApp from '../InitialSetup/ConfigureApp';
 // import Activity from '../Activity/Activity';
+
+const styles = StyleSheet.create({
+  selectedTab: {
+    color: BLUE,
+  },
+});
 
 class Navigation extends Component {
   constructor() {
@@ -22,8 +29,9 @@ class Navigation extends Component {
         <TabNavigator.Item
           selected={this.state.selectedTab === 'series'}
           title="Series"
-          // renderIcon={() => <Icon name="ios-person" size={30} color="#4F8EF7" />}
-          // renderSelectedIcon={() => <Icon name="ios-person" size={30} color="#FFFFFF" />}
+          selectedTitleStyle={styles.selectedTab}
+          renderIcon={() => <Icon name="play" size={26} color="#B9B9B9" />}
+          renderSelectedIcon={() => <Icon name="play" size={26} color={BLUE} />}
           // badgeText="1"
           onPress={() => this.setState({selectedTab: 'series'})}
         >
@@ -32,8 +40,9 @@ class Navigation extends Component {
         <TabNavigator.Item
           selected={this.state.selectedTab === 'activity'}
           title="Activity"
-          // renderIcon={() => <Icon name="ios-person" size={30} color="#4F8EF7" />}
-          // renderSelectedIcon={() => <Icon name="ios-person" size={30} color="#FFFFFF" />}
+          selectedTitleStyle={styles.selectedTab}
+          renderIcon={() => <Icon name="clock-o" size={26} color="#B9B9B9" />}
+          renderSelectedIcon={() => <Icon name="clock-o" size={26} color={BLUE} />}
           // renderBadge={() => <CustomBadgeView />}
           onPress={() => this.setState({selectedTab: 'activity'})}
         >
@@ -42,8 +51,9 @@ class Navigation extends Component {
         <TabNavigator.Item
           selected={this.state.selectedTab === 'configure'}
           title="Configure"
-          // renderIcon={() => <Icon name="ios-person" size={30} color="#4F8EF7" />}
-          // renderSelectedIcon={() => <Icon name="ios-person" size={30} color="#FFFFFF" />}
+          selectedTitleStyle={styles.selectedTab}
+          renderIcon={() => <Icon name="cogs" size={26} color="#B9B9B9" />}
+          renderSelectedIcon={() => <Icon name="cogs" size={26} color={BLUE} />}
           // renderBadge={() => <CustomBadgeView />}
           onPress={() => this.setState({selectedTab: 'configure'})}
         >

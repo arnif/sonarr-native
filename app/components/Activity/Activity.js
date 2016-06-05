@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     borderColor: BLUE,
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0,
+    borderLeftWidth: 0,
   },
   selected: {
     backgroundColor: BLUE,

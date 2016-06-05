@@ -1,12 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import {BLUE} from '../../constants/brand';
 import {StatusBar, View, TouchableHighlight, Navigator, Text, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
   leftNavButtonText: {
     fontSize: 18,
     marginLeft: 13,
-    marginTop: 2,
+    marginTop: 8,
     color: 'white',
   },
   rightNavButtonText: {
@@ -55,7 +56,9 @@ class NavigatorWrapper extends Component { // https://medium.com/@dabit3/react-n
                 navigator.pop();
               }}
             >
-              <Text style={styles.leftNavButtonText}>{'<'}</Text>
+              <Text style={styles.leftNavButtonText}>
+                <Icon name="chevron-left" />
+              </Text>
             </TouchableHighlight>
           );
         }
