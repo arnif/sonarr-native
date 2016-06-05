@@ -6,6 +6,7 @@ import {
   TouchableHighlight,
   StyleSheet,
 } from 'react-native';
+import {BLUE} from '../../constants/brand';
 import HistoryList from './HistoryList';
 import QueueList from './QueueList';
 
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
   },
   tabText: {
     textAlign: 'center',
-    color: '#3EB5DB',
+    color: BLUE,
   },
 
   rightButton: {
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     paddingRight: 7,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: '#3EB5DB',
+    borderColor: BLUE,
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0,
     borderRightWidth: 0,
@@ -48,12 +49,12 @@ const styles = StyleSheet.create({
     paddingRight: 7,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: '#3EB5DB',
+    borderColor: BLUE,
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0,
   },
   selected: {
-    backgroundColor: '#3EB5DB',
+    backgroundColor: BLUE,
   },
   selectedText: {
     color: 'white',

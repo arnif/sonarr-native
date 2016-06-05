@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {BLUE} from '../../constants/brand';
 import {StatusBar, View, TouchableHighlight, Navigator, Text, StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginRight: 13,
     marginTop: 2,
-    color: '#3EB5DB',
+    color: BLUE,
   },
   nav: {
     height: 60,
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 4,
     fontSize: 16,
-    color: '#3EB5DB',
+    color: BLUE,
   },
 });
 
