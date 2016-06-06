@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {View, StyleSheet, Text, TouchableHighlight} from 'react-native';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
+import {BORDER_COLOR} from '../../constants/brand';
 
 // const screen = Dimensions.get('window');
 
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     borderTopWidth: 1,
-    borderTopColor: '#D4D3D3',
+    borderTopColor: BORDER_COLOR,
   },
 });
 

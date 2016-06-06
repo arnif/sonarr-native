@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Image, View, StyleSheet, Text, TouchableHighlight} from 'react-native';
 import moment from 'moment';
-import {GREEN, BLUE, DARKER_BLUE, RED} from '../../constants/brand';
+import {GREEN, BLUE, DARKER_BLUE, RED, BORDER_COLOR} from '../../constants/brand';
 import Label from '../Widgets/Label';
 
 const styles = StyleSheet.create({
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     borderTopWidth: 1,
-    borderTopColor: '#D4D3D3',
+    borderTopColor: BORDER_COLOR,
   },
   posterImage: {
     width: 80,

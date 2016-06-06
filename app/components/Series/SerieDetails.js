@@ -15,18 +15,20 @@ import {bindActionCreators} from 'redux';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import {BlurView} from 'react-native-blur';
 import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series';
-
+import {BORDER_COLOR} from '../../constants/brand';
 
 // const screen = Dimensions.get('window');
 
 const PARALLAX_HEADER_HEIGHT = 200;
-const STICKY_HEADER_HEIGHT = 70;
+const STICKY_HEADER_HEIGHT = 60;
+// const AVATAR_SIZE = 50;
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     // marginTop: 60,
   },
   row: {
@@ -35,26 +37,44 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
+    borderTopWidth: 1,
+    borderColor: BORDER_COLOR,
+    backgroundColor: '#F5F8FA',
   },
   name: {
     width: 160,
     marginRight: 5,
+    color: 'black',
   },
   small: {
     fontSize: 10,
     marginRight: 5,
+    color: 'black',
   },
 
-  // stickySection: {
-  //   height: STICKY_HEADER_HEIGHT,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // stickySectionText: {
-  //   color: 'white',
-  //   fontSize: 20,
-  //   margin: 10,
-  // },
+  imageContainer: {
+    alignItems: 'flex-end',
+  },
+
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+
+  stickySection: {
+    height: STICKY_HEADER_HEIGHT,
+    borderBottomWidth: 1,
+    borderColor: BORDER_COLOR,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
+  stickySectionText: {
+    color: 'white',
+    fontSize: 20,
+    margin: 10,
+    textAlign: 'center',
+  },
   // fixedSection: {
   //   position: 'absolute',
   //   bottom: 10,
@@ -64,26 +84,18 @@ const styles = StyleSheet.create({
   //   color: '#999',
   //   fontSize: 20,
   // },
-  // parallaxHeader: {
-  //   alignItems: 'center',
-  //   flex: 1,
-  //   flexDirection: 'column',
-  //   paddingTop: 100,
-  // },
-  // avatar: {
-  //   marginBottom: 10,
-  //   borderRadius: AVATAR_SIZE / 2,
-  // },
-  // sectionSpeakerText: {
-  //   color: 'white',
-  //   fontSize: 24,
-  //   paddingVertical: 5,
-  // },
-  // sectionTitleText: {
-  //   color: 'white',
-  //   fontSize: 18,
-  //   paddingVertical: 5,
-  // },
+  parallaxHeader: {
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent',
+    height: 50,
+    marginTop: PARALLAX_HEADER_HEIGHT - 50,
+  },
+  sectionSpeakerText: {
+    color: 'white',
+    fontSize: 24,
+    padding: 5,
+    paddingLeft: 20,
+  },
   // textWrapper: {
   //   width: screen.width / 2,
   // },
@@ -99,6 +111,7 @@ const styles = StyleSheet.create({
   //   alignItems: 'flex-end',
   // },
 });
+
 
 class SerieDetails extends Component {
   static propTypes = {
@@ -152,30 +165,32 @@ class SerieDetails extends Component {
 
   renderRow(row) {
     return (
-      <View style={styles.row}>
-        <Text style={styles.name} numberOfLines={1}>
-          {`# ${row.get('episodeNumber')}  ${row.get('title')}`}
-        </Text>
-        <Text style={styles.small}>
-          {moment(row.get('airDateUtc')).fromNow()}
-        </Text>
-        <Text style={styles.small}>
-          {row.get('hasFile') ? 'HDTV' : <Icon name="exclamation-triangle" />}
-        </Text>
-        <TouchableHighlight
-          underlayColor="transparent"
-          onPress={() =>
-            this.props.downloadEpisode({
-              episodeIds: [row.get('id')],
-              name: 'episodeSearch',
-            })
-          }
-        >
-          <Text>
-            <Icon name="search" />
+      <BlurView blurType="dark" style={styles.container}>
+        <View style={styles.row}>
+          <Text style={styles.name} numberOfLines={1}>
+            {`# ${row.get('episodeNumber')}  ${row.get('title')}`}
           </Text>
-        </TouchableHighlight>
-      </View>
+          <Text style={styles.small}>
+            {moment(row.get('airDateUtc')).fromNow()}
+          </Text>
+          <Text style={styles.small}>
+            {row.get('hasFile') ? 'HDTV' : <Icon name="exclamation-triangle" color="black" />}
+          </Text>
+          <TouchableHighlight
+            underlayColor="transparent"
+            onPress={() =>
+              this.props.downloadEpisode({
+                episodeIds: [row.get('id')],
+                name: 'episodeSearch',
+              })
+            }
+          >
+            <Text>
+              <Icon name="search" color="black" />
+            </Text>
+          </TouchableHighlight>
+        </View>
+      </BlurView>
     );
   }
 
@@ -190,15 +205,15 @@ class SerieDetails extends Component {
         <StatusBar
           barStyle="light-content"
         />
-
         <ListView
           enableEmptySections
           dataSource={this.state.dataSource}
-          renderRow={(row) => this.renderRow(row)}
+          renderRow={(row) => this.renderRow(row, imageUrl)}
 
           renderScrollComponent={() => (
             <ParallaxScrollView
               onScroll={onScroll}
+              contentBackgroundColor="white"
               backgroundColor="transparent"
               headerBackgroundColor="#333"
               stickyHeaderHeight={STICKY_HEADER_HEIGHT}
@@ -208,10 +223,12 @@ class SerieDetails extends Component {
               renderBackground={() => (
                 <View key="background">
                   <Image
+                    style={styles.imageContainer}
                     source={{uri: imageUrl,
                     width: window.width,
                     height: PARALLAX_HEADER_HEIGHT}}
                   />
+
                   <View
                     style={{
                       position: 'absolute',
@@ -224,29 +241,31 @@ class SerieDetails extends Component {
                 </View>
               )}
 
-              // renderForeground={() => (
-              //   <View key="parallax-header" style={ styles.parallaxHeader }>
-              //     <Image style={ styles.avatar } source={{
-              //       uri: 'https://pbs.twimg.com/profile_images/2694242404/5b0619220a92d391534b0cd89bf5adc1_400x400.jpeg',
-              //       width: AVATAR_SIZE,
-              //       height: AVATAR_SIZE
-              //     }}/>
-              //     <Text style={ styles.sectionSpeakerText }>
-              //       Talks by Rich Hickey
-              //     </Text>
-              //     <Text style={ styles.sectionTitleText }>
-              //       CTO of Cognitec, Creator of Clojure
-              //     </Text>
-              //   </View>
-              // )}
+              renderForeground={() => (
+                <View key="parallax-header" style={styles.parallaxHeader}>
+                  <BlurView blurType="dark" style={styles.container}>
+                    <Text style={styles.sectionSpeakerText}>
+                      {serie.get('title')}
+                    </Text>
+                  </BlurView>
+                </View>
+              )}
 
-              // renderStickyHeader={() => (
-              //   <View key="sticky-header" style={styles.stickySection}>
-              //     <Text style={styles.stickySectionText}>
-              //       {serie.get('title')}
-              //     </Text>
-              //   </View>
-              // )}
+              renderStickyHeader={() => (
+                <Image
+                  source={{uri: imageUrl,
+                  width: window.width,
+                  height: STICKY_HEADER_HEIGHT}}
+                >
+                  <View key="sticky-header" style={styles.stickySection}>
+                    <BlurView blurType="dark" style={styles.container}>
+                      <Text style={styles.stickySectionText}>
+                        {serie.get('title')}
+                      </Text>
+                    </BlurView>
+                  </View>
+                </Image>
+              )}
 
               // renderFixedHeader={() => (
               //   <View key="fixed-header" style={styles.fixedSection}>
@@ -259,9 +278,7 @@ class SerieDetails extends Component {
             />
           )}
         />
-
       </View>
-
     );
   }
 }

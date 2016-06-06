@@ -4,4 +4,5 @@ module.exports = {
   WHITE: 'white',
   RED: '#D9534F',
   GREEN: '#5CB85C',
+  BORDER_COLOR: '#D4D3D3',
 };

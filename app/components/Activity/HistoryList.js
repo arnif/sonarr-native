@@ -8,6 +8,7 @@ import {
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getHistory} from '../../actions/activity';
+import {BORDER_COLOR} from '../../constants/brand';
 import HistoryItem from './HistoryItem';
 import SerieDetails from '../Series/SerieDetails';
 
@@ -72,7 +73,7 @@ class HistoryList extends Component {
         enableEmptySections
         refreshControl={
           <RefreshControl
-            tintColor="#D4D3D3"
+            tintColor={BORDER_COLOR}
             refreshing={pending}
             onRefresh={this.props.getHistory}
           />

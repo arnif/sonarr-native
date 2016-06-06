@@ -3,6 +3,7 @@ import {ListView, RefreshControl} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getSeries} from '../../actions/series';
+import {BORDER_COLOR} from '../../constants/brand';
 import SeriesItem from './SeriesItem';
 import SerieDetails from './SerieDetails';
 
@@ -68,7 +69,7 @@ class SeriesList extends Component {
         enableEmptySections
         refreshControl={
           <RefreshControl
-            tintColor="#D4D3D3"
+            tintColor={BORDER_COLOR}
             refreshing={pending}
             onRefresh={this.props.getSeries}
           />

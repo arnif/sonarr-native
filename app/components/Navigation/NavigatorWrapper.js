@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import {BLUE} from '../../constants/brand';
 import {StatusBar, View, TouchableHighlight, Navigator, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {BLUE, BORDER_COLOR} from '../../constants/brand';
 
 const styles = StyleSheet.create({
   leftNavButtonText: {
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: 'white',
     borderBottomWidth: 1,
-    borderColor: '#D4D3D3',
+    borderColor: BORDER_COLOR,
   },
   navTransparent: {
     height: 60,
