@@ -12,22 +12,22 @@ import {
 // import Accordion from 'react-native-accordion';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series';
+
 
 // const screen = Dimensions.get('window');
+
+const PARALLAX_HEADER_HEIGHT = 200;
+const STICKY_HEADER_HEIGHT = 70;
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: 'white',
     // marginTop: 60,
-  },
-  bannerImage: {
-    // flex: 1,
-    height: 200,
-    // width: 200,
   },
   row: {
     flex: 1,
@@ -44,6 +44,46 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginRight: 5,
   },
+
+  // stickySection: {
+  //   height: STICKY_HEADER_HEIGHT,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
+  // stickySectionText: {
+  //   color: 'white',
+  //   fontSize: 20,
+  //   margin: 10,
+  // },
+  // fixedSection: {
+  //   position: 'absolute',
+  //   bottom: 10,
+  //   right: 10,
+  // },
+  // fixedSectionText: {
+  //   color: '#999',
+  //   fontSize: 20,
+  // },
+  // parallaxHeader: {
+  //   alignItems: 'center',
+  //   flex: 1,
+  //   flexDirection: 'column',
+  //   paddingTop: 100,
+  // },
+  // avatar: {
+  //   marginBottom: 10,
+  //   borderRadius: AVATAR_SIZE / 2,
+  // },
+  // sectionSpeakerText: {
+  //   color: 'white',
+  //   fontSize: 24,
+  //   paddingVertical: 5,
+  // },
+  // sectionTitleText: {
+  //   color: 'white',
+  //   fontSize: 18,
+  //   paddingVertical: 5,
+  // },
   // textWrapper: {
   //   width: screen.width / 2,
   // },
@@ -67,6 +107,7 @@ class SerieDetails extends Component {
     getEpisodes: PropTypes.func.isRequired,
     downloadEpisode: PropTypes.func.isRequired,
     resetEspisodes: PropTypes.func.isRequired,
+    onScroll: PropTypes.func,
   };
 
   constructor() {
@@ -119,7 +160,7 @@ class SerieDetails extends Component {
           {moment(row.get('airDateUtc')).fromNow()}
         </Text>
         <Text style={styles.small}>
-          {row.get('hasFile') ? 'HDTV' : 'Missing'}
+          {row.get('hasFile') ? 'HDTV' : <Icon name="exclamation-triangle" />}
         </Text>
         <TouchableHighlight
           underlayColor="transparent"
@@ -142,20 +183,85 @@ class SerieDetails extends Component {
     const {serie} = this.props;
     const bannerImage = serie.get('images').find((i) => i.get('coverType') === 'fanart').get('url');
     const imageUrl = `http://10.0.1.10:8989${bannerImage}`;
+
+    const {onScroll = () => {}} = this.props;
     return (
       <View style={styles.root}>
         <StatusBar
           barStyle="light-content"
         />
-        <Image source={{uri: imageUrl}} style={styles.bannerImage} resizeMode="cover" />
-        {/* <Text>{serie.get('title')}</Text>*/}
 
         <ListView
           enableEmptySections
           dataSource={this.state.dataSource}
           renderRow={(row) => this.renderRow(row)}
+
+          renderScrollComponent={() => (
+            <ParallaxScrollView
+              onScroll={onScroll}
+              backgroundColor="transparent"
+              headerBackgroundColor="#333"
+              stickyHeaderHeight={STICKY_HEADER_HEIGHT}
+              parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
+              backgroundSpeed={10}
+
+              renderBackground={() => (
+                <View key="background">
+                  <Image
+                    source={{uri: imageUrl,
+                    width: window.width,
+                    height: PARALLAX_HEADER_HEIGHT}}
+                  />
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      width: window.width,
+                      backgroundColor: 'rgba(0,0,0,.4)',
+                      height: PARALLAX_HEADER_HEIGHT,
+                    }}
+                  />
+                </View>
+              )}
+
+              // renderForeground={() => (
+              //   <View key="parallax-header" style={ styles.parallaxHeader }>
+              //     <Image style={ styles.avatar } source={{
+              //       uri: 'https://pbs.twimg.com/profile_images/2694242404/5b0619220a92d391534b0cd89bf5adc1_400x400.jpeg',
+              //       width: AVATAR_SIZE,
+              //       height: AVATAR_SIZE
+              //     }}/>
+              //     <Text style={ styles.sectionSpeakerText }>
+              //       Talks by Rich Hickey
+              //     </Text>
+              //     <Text style={ styles.sectionTitleText }>
+              //       CTO of Cognitec, Creator of Clojure
+              //     </Text>
+              //   </View>
+              // )}
+
+              // renderStickyHeader={() => (
+              //   <View key="sticky-header" style={styles.stickySection}>
+              //     <Text style={styles.stickySectionText}>
+              //       {serie.get('title')}
+              //     </Text>
+              //   </View>
+              // )}
+
+              // renderFixedHeader={() => (
+              //   <View key="fixed-header" style={styles.fixedSection}>
+              //     <Text style={styles.fixedSectionText}
+              //           onPress={() => this.refs.ListView.scrollTo({ x: 0, y: 0 })}>
+              //       Scroll to top
+              //     </Text>
+              //   </View>
+              // )}
+            />
+          )}
         />
+
       </View>
+
     );
   }
 }
