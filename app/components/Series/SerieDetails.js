@@ -18,6 +18,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {BlurView} from 'react-native-blur';
 import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series';
 import {BORDER_COLOR} from '../../constants/brand';
+import {capitalizeFirstLetter, reverseObject} from '../../helpers/utilities';
 
 // const screen = Dimensions.get('window');
 
@@ -60,6 +61,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'transparent',
+  },
+
+  sectionHeader: {
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: BORDER_COLOR,
   },
 
   stickySection: {
@@ -128,10 +135,12 @@ class SerieDetails extends Component {
     this.state = {
       seasons: [],
     };
+
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
     });
-    this.state.dataSource = ds.cloneWithRows([]);
+    this.state.dataSource = ds.cloneWithRowsAndSections([]);
   }
 
   componentWillMount() {
@@ -149,26 +158,48 @@ class SerieDetails extends Component {
     if (!nextProps.episodes) {
       return;
     }
+
+    // const s = {
+    //   season1: [...],
+    //   seson2: [...],
+    // };
+    const s = {};
     nextProps.episodes.forEach((episode) => {
       const currentNr = episode.get('seasonNumber');
       if (prevNr !== currentNr) {
-        seasonsArr.push(currentNr);
+        s[`season_${currentNr}`] = [episode];
+        seasonsArr.push(`season_${currentNr}`);
+      } else {
+        s[`season_${currentNr}`] = [...s[`season_${currentNr}`], episode];
       }
       prevNr = currentNr;
     });
-    console.log('arr', seasonsArr);
+    // console.log(s);
+    // console.log(reverseObject(s));
+    // console.log('arr', seasonsArr);
     this.setState({
       seasons: seasonsArr,
-      dataSource: this.state.dataSource.cloneWithRows(nextProps.episodes.toArray().reverse()),
+      dataSource: this.state.dataSource.cloneWithRowsAndSections(reverseObject(s)),
     });
   }
 
+  renderSectionHeader(sectionData, section) {
+    console.log('sectionData', sectionData);
+    console.log('section', section);
+    return (
+      <View style={styles.sectionHeader}>
+        <Text>{capitalizeFirstLetter(section.replace('_', ' '))}</Text>
+      </View>
+    );
+  }
+
   renderRow(row) {
+    // console.log('renderRow', row);
     return (
       <BlurView blurType="dark" style={styles.container}>
         <View style={styles.row}>
           <Text style={styles.name} numberOfLines={1}>
-            {`# ${row.get('episodeNumber')}  ${row.get('title')}`}
+            {`# ${row.get('episodeNumber')} ${row.get('title')}`}
           </Text>
           <Text style={styles.small}>
             {moment(row.get('airDateUtc')).fromNow()}
@@ -200,6 +231,7 @@ class SerieDetails extends Component {
     const imageUrl = `http://10.0.1.10:8989${bannerImage}`;
 
     const {onScroll = () => {}} = this.props;
+    console.log('dataSource', this.state.dataSource);
     return (
       <View style={styles.root}>
         <StatusBar
@@ -209,6 +241,8 @@ class SerieDetails extends Component {
           enableEmptySections
           dataSource={this.state.dataSource}
           renderRow={(row) => this.renderRow(row, imageUrl)}
+          renderSectionHeader={(sectionData, section) => this.renderSectionHeader(sectionData, section)}
+          pageSize={this.props.episodes && this.props.episodes.size || 0}
 
           renderScrollComponent={() => (
             <ParallaxScrollView
