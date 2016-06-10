@@ -14,4 +14,8 @@ module.exports = {
     getHistory: null,
     getQueue: null,
   }),
+  Modal: keyMirror({
+    showModal: null,
+    hideModal: null,
+  }),
 };

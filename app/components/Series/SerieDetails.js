@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {BlurView} from 'react-native-blur';
 import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series';
+import {showModal} from '../../actions/modal';
 import {BORDER_COLOR} from '../../constants/brand';
 import {capitalizeFirstLetter, reverseObject} from '../../helpers/utilities';
 
@@ -127,6 +128,7 @@ class SerieDetails extends Component {
     getEpisodes: PropTypes.func.isRequired,
     downloadEpisode: PropTypes.func.isRequired,
     resetEspisodes: PropTypes.func.isRequired,
+    showModal: PropTypes.func.isRequired,
     onScroll: PropTypes.func,
   };
 
@@ -198,9 +200,14 @@ class SerieDetails extends Component {
     return (
       <BlurView blurType="dark" style={styles.container}>
         <View style={styles.row}>
-          <Text style={styles.name} numberOfLines={1}>
-            {`# ${row.get('episodeNumber')} ${row.get('title')}`}
-          </Text>
+          <TouchableHighlight
+            underlayColor="transparent"
+            onPress={() => this.props.showModal()}
+          >
+            <Text style={styles.name} numberOfLines={1}>
+              {`# ${row.get('episodeNumber')} ${row.get('title')}`}
+            </Text>
+          </TouchableHighlight>
           <Text style={styles.small}>
             {moment(row.get('airDateUtc')).fromNow()}
           </Text>
@@ -330,6 +337,7 @@ const dispatchToProps = (dispatch) => {
     getEpisodes,
     downloadEpisode,
     resetEspisodes,
+    showModal,
   };
   return bindActionCreators(actions, dispatch);
 };
