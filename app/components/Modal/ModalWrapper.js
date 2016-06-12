@@ -18,7 +18,7 @@ class ModalWrapper extends Component {
         visible={this.props.isModalVisible}
         onRequestClose={() => console.log('close')}
       >
-        <View style={{flex: 1, marginTop: 20, marginLeft: 6}}>
+        <View style={{flex: 1, marginTop: 20}}>
           <View>
             <TouchableHighlight underlayColor="transparent" onPress={this.props.hideModal}>
               <Text style={{color: 'red'}}>Close</Text>

@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import SearchInput from './SearchInput';
 
 const AddShowWizardWrapper = () => { // eslint-disable-line
   return (
     <View>
-      <Text>Add show....</Text>
+      <SearchInput />
     </View>
   );
 };
