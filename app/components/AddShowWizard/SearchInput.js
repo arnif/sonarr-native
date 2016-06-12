@@ -7,15 +7,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  searchInputWrapper: {
-
-  },
   searchInput: {
     flex: 4,
     padding: 10,
     borderColor: 'gray',
     borderWidth: 1,
-    // borderRadius: 20,
+    borderRadius: 20,
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
   },
@@ -37,6 +34,11 @@ const styles = StyleSheet.create({
 
 
 class SearchInput extends Component {
+
+  static propTypes = {
+    lookup: PropTypes.func.isRequired,
+  }
+
   constructor() {
     super();
     this.state = {
@@ -44,15 +46,31 @@ class SearchInput extends Component {
     };
   }
 
+  search() {
+    console.log('search', this.state.text);
+    this.props.lookup(this.state.text);
+  }
+
   render() {
+    console.log(this.props);
     return (
       <View style={styles.root}>
         <TextInput
           style={styles.searchInput}
           onChangeText={(text) => this.setState({text})}
           value={this.state.text}
+          autoCapitalize="none"
+          autoCorrect={false}
+          autoFocus
+          placeholder="Name of the series you want to add..."
+          returnKeyType="search"
+          onSubmitEditing={() => this.search()}
         />
-        <TouchableHighlight style={styles.button} underlayColor="transparent">
+        <TouchableHighlight
+          style={styles.button}
+          underlayColor="transparent"
+          onPress={() => this.search()}
+        >
           <Text style={styles.buttonText}>
             Search
           </Text>
