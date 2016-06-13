@@ -8,7 +8,7 @@ import {
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getQueue} from '../../actions/activity';
-import {BORDER_COLOR} from '../../constants/brand';
+import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import HistoryItem from './HistoryItem';
 import SerieDetails from '../Series/SerieDetails';
 
@@ -64,7 +64,7 @@ class QueueList extends Component {
     const pending = this.props.pending;
     return (
       <ListView
-        style={{backgroundColor: '#F5F8FA', marginTop: 59}}
+        style={{backgroundColor: BACKGROUND_GRAY, marginTop: 59}}
         dataSource={this.state.dataSource}
         renderRow={(item) => (
           <HistoryItem item={item} onPress={() => this.navigate(item)} />

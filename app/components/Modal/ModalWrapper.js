@@ -10,6 +10,7 @@ class ModalWrapper extends Component {
     showModal: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     modalData: PropTypes.any,
+    showClose: PropTypes.bool,
   }
   render() {
     return (
@@ -18,12 +19,14 @@ class ModalWrapper extends Component {
         visible={this.props.isModalVisible}
         onRequestClose={() => console.log('close')}
       >
-        <View style={{flex: 1, marginTop: 20}}>
-          <View>
-            <TouchableHighlight underlayColor="transparent" onPress={this.props.hideModal}>
-              <Text style={{color: 'red'}}>Close</Text>
-            </TouchableHighlight>
-          </View>
+        <View style={{flex: 1}}>
+          {this.props.showClose &&
+            <View>
+              <TouchableHighlight underlayColor="transparent" onPress={this.props.hideModal}>
+                <Text style={{color: 'red'}}>Close</Text>
+              </TouchableHighlight>
+            </View>
+          }
 
           <View>
             {this.props.modalData && this.props.modalData.toJS()}

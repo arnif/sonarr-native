@@ -9,6 +9,7 @@
     "axios": "^0.11.1",
     "immutable": "^3.8.1",
     "keymirror": "^0.1.1",
+    "lodash.debounce": "^4.0.6",
     "lodash.mapvalues": "^4.3.0",
     "moment": "^2.13.0",
     "react": "15.0.2",

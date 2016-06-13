@@ -18,7 +18,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {BlurView} from 'react-native-blur';
 import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series';
 import {showModal} from '../../actions/modal';
-import {BORDER_COLOR} from '../../constants/brand';
+import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import {capitalizeFirstLetter, reverseObject} from '../../helpers/utilities';
 
 // const screen = Dimensions.get('window');
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderTopWidth: 1,
     borderColor: BORDER_COLOR,
-    backgroundColor: '#F5F8FA',
+    backgroundColor: BACKGROUND_GRAY,
   },
   name: {
     width: 160,

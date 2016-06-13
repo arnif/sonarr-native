@@ -1,10 +1,26 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Text, ListView, TouchableHighlight, StyleSheet} from 'react-native';
-import {BLUE} from '../../constants/brand';
+import {ActivityIndicatorIOS, View, Text, ListView, StyleSheet} from 'react-native';
+import {BORDER_COLOR} from '../../constants/brand';
+import SearchResultsItem from './SearchResultsItem';
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    marginTop: -1,
+  },
+  emptyWrapper: {
+    flex: 1,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    color: BORDER_COLOR,
+  },
+  loadingWrapper: {
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: BORDER_COLOR,
   },
 });
 
@@ -36,20 +52,19 @@ class SearchResults extends Component {
     });
   }
 
-  renderRow(rowData) {
-    console.log(rowData);
-    return (
-      <View>
-        <Text>{rowData.get('title')}</Text>
-      </View>
-    );
-  }
-
   render() {
+    console.log(this.props.results);
+    if (!this.props.results) {
+      return (
+        <View style={styles.emptyWrapper}>
+          <Text style={styles.emptyText}>Start typing to search...</Text>
+        </View>
+      );
+    }
     if (this.props.results && this.props.results.size === 0) {
       return (
-        <View>
-          <Text>No results</Text>
+        <View style={styles.emptyWrapper}>
+          <Text style={styles.emptyText}>No results</Text>
         </View>
       );
     }
@@ -57,8 +72,15 @@ class SearchResults extends Component {
       <View style={styles.root}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(rowData) => this.renderRow(rowData)}
+          renderRow={(rowData) => <SearchResultsItem item={rowData} />}
           enableEmptySections
+          renderFooter={() => (
+            <View style={styles.loadingWrapper}>
+              <ActivityIndicatorIOS
+                animating={this.props.pending}
+              />
+            </View>
+          )}
         />
       </View>
     );

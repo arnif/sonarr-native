@@ -3,7 +3,7 @@ import {ListView, RefreshControl} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getSeries} from '../../actions/series';
-import {BORDER_COLOR} from '../../constants/brand';
+import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import SeriesItem from './SeriesItem';
 import SerieDetails from './SerieDetails';
 
@@ -57,7 +57,7 @@ class SeriesList extends Component {
     const pending = this.props.pending;
     return (
       <ListView
-        style={{backgroundColor: '#F5F8FA', marginTop: 59}}
+        style={{backgroundColor: BACKGROUND_GRAY, marginTop: 59}}
         dataSource={this.state.dataSource}
         renderRow={(serie) => (
           <SeriesItem
