@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 120,
     marginRight: 20,
+    borderRadius: 3,
   },
   textWrapper: {
     flex: 1,

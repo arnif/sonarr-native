@@ -4,10 +4,6 @@ import {BORDER_COLOR} from '../../constants/brand';
 import SearchResultsItem from './SearchResultsItem';
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    marginTop: -1,
-  },
   emptyWrapper: {
     flex: 1,
     marginTop: 20,
@@ -69,20 +65,18 @@ class SearchResults extends Component {
       );
     }
     return (
-      <View style={styles.root}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(rowData) => <SearchResultsItem item={rowData} />}
-          enableEmptySections
-          renderFooter={() => (
-            <View style={styles.loadingWrapper}>
-              <ActivityIndicatorIOS
-                animating={this.props.pending}
-              />
-            </View>
-          )}
-        />
-      </View>
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={(rowData) => <SearchResultsItem item={rowData} />}
+        enableEmptySections
+        renderFooter={() => (
+          <View style={styles.loadingWrapper}>
+            <ActivityIndicatorIOS
+              animating={this.props.pending}
+            />
+          </View>
+        )}
+      />
     );
   }
 }

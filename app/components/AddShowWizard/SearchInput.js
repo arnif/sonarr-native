@@ -5,7 +5,6 @@ import {BLUE, BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
     flexDirection: 'row',
     padding: 10,
     backgroundColor: BACKGROUND_GRAY,

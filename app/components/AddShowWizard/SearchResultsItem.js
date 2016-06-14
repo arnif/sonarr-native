@@ -11,12 +11,13 @@ const styles = {
     padding: 10,
     borderTopWidth: 1,
     borderTopColor: BORDER_COLOR,
+    marginTop: -1,
   },
   posterImage: {
     width: 80,
     height: 120,
     marginRight: 20,
-    borderRadius: 4,
+    borderRadius: 3,
   },
   textWrapper: {
     flex: 1,

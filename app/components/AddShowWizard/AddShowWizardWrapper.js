@@ -10,7 +10,7 @@ import SearchResults from './SearchResults';
 
 const AddShowWizardWrapper = ({lookup, results, pending, hideModal}) => { // eslint-disable-line
   return (
-    <View>
+    <View style={{flex: 1}}>
       <StatusBar
         backgroundColor={BACKGROUND_GRAY}
         hidden

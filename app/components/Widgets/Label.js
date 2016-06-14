@@ -2,6 +2,9 @@ import React, {PropTypes} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 const Label = ({text, color = '#777777', style}) => {
+  if (!text) {
+    return null;
+  }
   const styles = StyleSheet.create({
     root: {
       paddingTop: 2,
@@ -28,7 +31,7 @@ const Label = ({text, color = '#777777', style}) => {
 
 
 Label.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   color: PropTypes.string,
   style: PropTypes.any,
 };

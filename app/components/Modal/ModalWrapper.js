@@ -27,10 +27,7 @@ class ModalWrapper extends Component {
               </TouchableHighlight>
             </View>
           }
-
-          <View>
-            {this.props.modalData && this.props.modalData.toJS()}
-          </View>
+          {this.props.modalData && this.props.modalData.toJS()}
         </View>
 
       </Modal>
