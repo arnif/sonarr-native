@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {View, Image, Text} from 'react-native';
 import {BORDER_COLOR, TEXT_GRAY, RED} from '../../constants/brand';
 import Label from '../Widgets/Label';
+import SmartImage from '../Widgets/SmartImage';
 
 const styles = {
   row: {
@@ -37,17 +38,10 @@ const styles = {
 
 const SearchResultsItem = ({item}) => {
   console.log(item);
-  const hasPosterImage = item.get('images').find((i) => i.get('coverType') === 'poster');
-  const posterImage = hasPosterImage && hasPosterImage.get('url');
   const hasEnded = item.get('status') === 'ended';
   return (
     <View style={styles.row}>
-      <Image
-        source={{
-          uri: posterImage || 'http://10.0.1.10:8989/Content/Images/poster-dark.png',
-        }}
-        style={styles.posterImage}
-      />
+      <SmartImage item={item} style={styles.posterImage} type="poster" />
       <View style={styles.textWrapper}>
         <Text>
           {item.get('title')}

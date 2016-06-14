@@ -20,7 +20,7 @@ import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series
 import {showModal} from '../../actions/modal';
 import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import {capitalizeFirstLetter, reverseObject} from '../../helpers/utilities';
-
+import {getImageUrl} from '../Widgets/SmartImage';
 // const screen = Dimensions.get('window');
 
 const PARALLAX_HEADER_HEIGHT = 200;
@@ -234,11 +234,9 @@ class SerieDetails extends Component {
 
   render() {
     const {serie} = this.props;
-    const bannerImage = serie.get('images').find((i) => i.get('coverType') === 'fanart').get('url');
-    const imageUrl = `http://10.0.1.10:8989${bannerImage}`;
+    const imageUrl = getImageUrl(serie, 'fanart');
 
     const {onScroll = () => {}} = this.props;
-    console.log('dataSource', this.state.dataSource);
     return (
       <View style={styles.root}>
         <StatusBar
@@ -247,7 +245,7 @@ class SerieDetails extends Component {
         <ListView
           enableEmptySections
           dataSource={this.state.dataSource}
-          renderRow={(row) => this.renderRow(row, imageUrl)}
+          renderRow={(row) => this.renderRow(row)}
           renderSectionHeader={(sectionData, section) => this.renderSectionHeader(sectionData, section)}
           pageSize={this.props.episodes && this.props.episodes.size || 0}
 

@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
-import {Image, View, StyleSheet, Text, TouchableHighlight} from 'react-native';
+import {View, StyleSheet, Text, TouchableHighlight} from 'react-native';
 import moment from 'moment';
 import {GREEN, BLUE, DARKER_BLUE, RED, BORDER_COLOR} from '../../constants/brand';
 import Label from '../Widgets/Label';
+import SmartImage from '../Widgets/SmartImage';
 
 const styles = StyleSheet.create({
   root: {
@@ -48,8 +49,6 @@ const getLabelColor = (fileCount, episodeCount, hasEnded) => {
 };
 
 const SeriesItem = ({item, onPress}) => {
-  const posterImage = item.get('images').find((i) => i.get('coverType') === 'poster').get('url');
-  const imageUrl = `http://10.0.1.10:8989${posterImage}`;
   const nextAiring = item.get('nextAiring');
   const hasEnded = item.get('status') === 'ended';
   const seasonNr = item.get('seasonCount');
@@ -58,7 +57,7 @@ const SeriesItem = ({item, onPress}) => {
   return (
     <TouchableHighlight onPress={() => onPress()}>
       <View style={styles.root}>
-        <Image source={{uri: imageUrl}} style={styles.posterImage} />
+        <SmartImage item={item} style={styles.posterImage} type="poster" />
         <View style={styles.textWrapper}>
           <Text>{item.get('title')}</Text>
 
