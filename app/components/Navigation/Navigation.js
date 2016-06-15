@@ -1,7 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {StyleSheet, View} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {getProfile} from '../../actions/config';
 import {BLUE} from '../../constants/brand';
 import SeriesNavigation from './SeriesNavigation';
 import ActivityNavigation from './ActivityNavigation';
@@ -15,6 +18,11 @@ const styles = StyleSheet.create({
 });
 
 class Navigation extends Component {
+  static propTypes = {
+    getProfile: PropTypes.func.isRequired,
+    profile: PropTypes.object,
+  }
+
   constructor() {
     super();
     this.state = {
@@ -22,7 +30,14 @@ class Navigation extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getProfile();
+  }
+
   render() {
+    if (!this.props.profile) {
+      return null;
+    }
     return (
       <View style={{flex: 1}}>
         <ModalWrapper />
@@ -66,4 +81,16 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation;
+const stateToProps = (state) => ({
+  profile: state.Config.get('profile'),
+  pending: state.Config.get('pending'),
+});
+
+const dispatchToProps = (dispatch) => {
+  const actions = {
+    getProfile,
+  };
+  return bindActionCreators(actions, dispatch);
+};
+
+export default connect(stateToProps, dispatchToProps)(Navigation);

@@ -5,6 +5,7 @@ import {handleActions} from 'redux-actions';
 const initialState = Immutable.fromJS({
   config: null,
   pending: false,
+  profile: null,
 });
 
 const actions = {
@@ -14,6 +15,15 @@ const actions = {
         return state.merge({pending, error});
       }
       return state.merge({pending, error, config: payload});
+    },
+  },
+
+  [Config.getProfile]: {
+    next(state, {payload, error, pending}) {
+      if (pending || error) {
+        return state.merge({pending, error});
+      }
+      return state.merge({pending, error, profile: payload});
     },
   },
 };

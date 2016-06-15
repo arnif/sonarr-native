@@ -2,9 +2,9 @@ import React from 'react';
 import {View, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {BACKGROUND_GRAY} from '../../constants/brand';
 import {lookup} from '../../actions/search';
 import {hideModal} from '../../actions/modal';
+import {BACKGROUND_GRAY} from '../../constants/brand';
 import SearchInput from './SearchInput';
 import SearchResults from './SearchResults';
 

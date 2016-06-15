@@ -79,7 +79,9 @@ class SeriesList extends Component {
   }
 }
 
-const stateToProps = (state) => ({series: state.Series.get('series'), pending: state.Series.get('pending')});
+const stateToProps = (state) => ({
+  series: state.Series.get('series'), pending: state.Series.get('pending'),
+});
 
 const dispatchToProps = (dispatch) => {
   const actions = {

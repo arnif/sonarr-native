@@ -3,6 +3,7 @@ import keyMirror from 'keymirror';
 module.exports = {
   Config: keyMirror({
     getConfig: null,
+    getProfile: null,
   }),
   Series: keyMirror({
     getSeries: null,
