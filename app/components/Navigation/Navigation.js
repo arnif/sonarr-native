@@ -4,7 +4,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getProfile} from '../../actions/config';
+import {getProfile, getRootFolder} from '../../actions/config';
 import {BLUE} from '../../constants/brand';
 import SeriesNavigation from './SeriesNavigation';
 import ActivityNavigation from './ActivityNavigation';
@@ -20,7 +20,9 @@ const styles = StyleSheet.create({
 class Navigation extends Component {
   static propTypes = {
     getProfile: PropTypes.func.isRequired,
+    getRootFolder: PropTypes.func.isRequired,
     profile: PropTypes.object,
+    rootFolder: PropTypes.object,
   }
 
   constructor() {
@@ -32,10 +34,11 @@ class Navigation extends Component {
 
   componentDidMount() {
     this.props.getProfile();
+    this.props.getRootFolder();
   }
 
   render() {
-    if (!this.props.profile) {
+    if (!this.props.profile || !this.props.rootFolder) {
       return null;
     }
     return (
@@ -83,12 +86,14 @@ class Navigation extends Component {
 
 const stateToProps = (state) => ({
   profile: state.Config.get('profile'),
+  rootFolder: state.Config.get('rootFolder'),
   pending: state.Config.get('pending'),
 });
 
 const dispatchToProps = (dispatch) => {
   const actions = {
     getProfile,
+    getRootFolder,
   };
   return bindActionCreators(actions, dispatch);
 };

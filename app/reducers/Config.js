@@ -6,6 +6,7 @@ const initialState = Immutable.fromJS({
   config: null,
   pending: false,
   profile: null,
+  rootFolder: null,
 });
 
 const actions = {
@@ -24,6 +25,15 @@ const actions = {
         return state.merge({pending, error});
       }
       return state.merge({pending, error, profile: payload});
+    },
+  },
+
+  [Config.getRootFolder]: {
+    next(state, {payload, error, pending}) {
+      if (pending || error) {
+        return state.merge({pending, error});
+      }
+      return state.merge({pending, error, rootFolder: payload});
     },
   },
 };

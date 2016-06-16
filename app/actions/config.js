@@ -6,6 +6,7 @@ import * as apiActions from './api';
 const actions = {
   [Config.getConfig]: () => apiActions.get(`/config/ui`),
   [Config.getProfile]: () => apiActions.get(`/profile`),
+  [Config.getRootFolder]: () => apiActions.get(`/rootfolder`),
 };
 
 module.exports = mapValues(actions, (action, type) => createAction(type, action));
