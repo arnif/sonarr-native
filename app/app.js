@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {AsyncStorage, View} from 'react-native';
-// import codePush, {InstallMode} from 'react-native-code-push';
+import {AppState, AsyncStorage, View} from 'react-native';
+import codePush, {InstallMode} from 'react-native-code-push';  // eslint-disable-line
 // import {connect} from 'react-redux';
 // import {bindActionCreators} from 'redux';
 // import {getSeries} from './actions/series';
@@ -40,6 +40,18 @@ class App extends Component {
         this.setState({keyFound: true}); // eslint-disable-line
       }
     });
+
+    codePush.sync({
+      installMode: InstallMode.IMMEDIATE,
+    });
+    // Check for CodePush updates when app becomes active.
+    AppState.addEventListener('change', (newState) => {
+      if (newState === 'active') {
+        codePush.sync({
+          installMode: InstallMode.IMMEDIATE,
+        }); // {installMode: InstallMode.ON_NEXT_RESTART}
+      }
+    });
   }
 
 
@@ -52,7 +64,7 @@ class App extends Component {
 
     if (!this.state.keyFound && !this.state.initialLoad) {
       return (
-        <ConfigureApp />
+        <ConfigureApp onSuccess={() => this.setState({keyFound: true})} />
       );
     }
     return (
