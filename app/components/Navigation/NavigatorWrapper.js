@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {StatusBar, View, TouchableHighlight, Navigator, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {BLUE, BORDER_COLOR} from '../../constants/brand';
+import {NAV_HEIGHT} from '../../constants/variables';
 
 const styles = StyleSheet.create({
   leftNavButtonText: {
@@ -13,22 +14,22 @@ const styles = StyleSheet.create({
   rightNavButtonText: {
     fontSize: 18,
     marginRight: 13,
-    marginTop: 2,
+    marginTop: 8,
     color: BLUE,
   },
   nav: {
-    height: 60,
+    height: NAV_HEIGHT,
     backgroundColor: 'white',
     borderBottomWidth: 1,
     borderColor: BORDER_COLOR,
   },
   navTransparent: {
-    height: 60,
+    height: NAV_HEIGHT,
     backgroundColor: 'transparent',
   },
   title: {
-    marginTop: 4,
-    fontSize: 16,
+    marginTop: 8,
+    fontSize: 18,
     color: BLUE,
   },
 });

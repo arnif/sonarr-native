@@ -34,4 +34,5 @@ module.exports = {
     id: 2,
     name: 'Anime',
   }]),
+  NAV_HEIGHT: 62,
 };
