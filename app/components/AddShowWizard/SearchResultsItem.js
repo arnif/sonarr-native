@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Switch} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 // import {lookup} from '../../actions/search';
-import {BORDER_COLOR, TEXT_GRAY, RED} from '../../constants/brand';
+import {BORDER_COLOR, TEXT_GRAY, RED, GREEN, GREEN_BORDER} from '../../constants/brand';
 import {MONITOR_ITEMS, SERIES_TYPES} from '../../constants/variables';
 import Label from '../Widgets/Label';
 import SmartImage from '../Widgets/SmartImage';
@@ -60,6 +60,32 @@ const styles = {
   pickerButtonText: {
     marginRight: 5,
   },
+  bottomButtonsWrapper: {
+    marginTop: 7,
+  },
+
+  addButtonsWrapper: {
+    flexDirection: 'row',
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+  },
+
+  addButton: {
+    backgroundColor: GREEN,
+    padding: 14,
+  },
+
+  rightButton: {
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+    borderLeftWidth: 1,
+    borderColor: GREEN_BORDER,
+  },
+  leftButton: {
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
+  },
 };
 
 class SearchResultsItem extends Component {
@@ -70,6 +96,7 @@ class SearchResultsItem extends Component {
       showPathPicker: false,
       showMonitorPicker: false,
       showSeriesTypePicker: false,
+      isSeasonfolder: false,
       selectedProfile: props.profile.get(0),
       selectedMonitor: MONITOR_ITEMS.get(0),
       selectedSeriesType: SERIES_TYPES.get(0),
@@ -143,6 +170,34 @@ class SearchResultsItem extends Component {
                 <Icon name="chevron-down" size={12} color="#B9B9B9" />
               </View>
             </TouchableOpacity>
+
+            <View style={styles.bottomButtonsWrapper}>
+              <View>
+                <Text>
+                  Season Folders
+                </Text>
+                <Switch
+                  onValueChange={(value) => this.setState({isSeasonfolder: value})}
+                  value={this.state.isSeasonfolder}
+                />
+              </View>
+
+
+            </View>
+            <View style={styles.addButtonsWrapper}>
+              <TouchableOpacity style={[styles.addButton, styles.leftButton]} onPress={() => {}}>
+                <Text>
+                  <Icon name="plus" color="white" />
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.addButton, styles.rightButton]} onPress={() => {}}>
+                <Text>
+                  <Icon name="search" color="white" />
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+
           </View>
         </View>
 
