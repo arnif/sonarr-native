@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const Label = ({text, color = '#777777', style}) => {
+const Label = ({text, color = '#777777', style, textStyle, invert = false}) => {
   if (!text) {
     return null;
   }
@@ -11,18 +11,21 @@ const Label = ({text, color = '#777777', style}) => {
       paddingBottom: 2,
       paddingLeft: 4,
       paddingRight: 4,
-      backgroundColor: color,
+      backgroundColor: invert ? '#eee' : color,
       borderRadius: 4,
+      borderWidth: 1,
+      borderColor: color,
     },
     text: {
       fontWeight: 'bold',
       fontSize: 12,
-      color: 'white',
+      color: invert ? color : 'white',
+      textAlign: 'center',
     },
   });
   return (
     <View style={[styles.root, style]}>
-      <Text style={styles.text}>
+      <Text style={[styles.text, textStyle]}>
         {text}
       </Text>
     </View>
@@ -34,6 +37,8 @@ Label.propTypes = {
   text: PropTypes.string,
   color: PropTypes.string,
   style: PropTypes.any,
+  textStyle: PropTypes.any,
+  invert: PropTypes.bool,
 };
 
 export default Label;

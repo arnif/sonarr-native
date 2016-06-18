@@ -16,11 +16,12 @@ import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {BlurView} from 'react-native-blur';
-import {getEpisodes, downloadEpisode, resetEspisodes} from '../../actions/series';
+import {getEpisodes, getEpisodesFiles, downloadEpisode, resetEspisodes} from '../../actions/series';
 import {showModal} from '../../actions/modal';
 import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import {capitalizeFirstLetter, reverseObject} from '../../helpers/utilities';
 import {getImageUrl} from '../Widgets/SmartImage';
+import Label from '../Widgets/Label';
 // const screen = Dimensions.get('window');
 
 const PARALLAX_HEADER_HEIGHT = 200;
@@ -52,6 +53,14 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginRight: 5,
     color: 'black',
+  },
+
+  qualityNotMet: {
+    color: '#777',
+  },
+
+  qualityMet: {
+    color: 'white',
   },
 
   imageContainer: {
@@ -124,8 +133,11 @@ const styles = StyleSheet.create({
 class SerieDetails extends Component {
   static propTypes = {
     serie: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
     episodes: PropTypes.object,
+    episodesFiles: PropTypes.object,
     getEpisodes: PropTypes.func.isRequired,
+    getEpisodesFiles: PropTypes.func.isRequired,
     downloadEpisode: PropTypes.func.isRequired,
     resetEspisodes: PropTypes.func.isRequired,
     showModal: PropTypes.func.isRequired,
@@ -151,6 +163,7 @@ class SerieDetails extends Component {
 
   componentDidMount() {
     // fetch serie details (seasons etc)
+    this.props.getEpisodesFiles(this.props.serie.get('id'));
     setTimeout(() => this.props.getEpisodes(this.props.serie.get('id')), 500); // delay otherwise super laggy
   }
 
@@ -186,8 +199,8 @@ class SerieDetails extends Component {
   }
 
   renderSectionHeader(sectionData, section) {
-    console.log('sectionData', sectionData);
-    console.log('section', section);
+    // console.log('sectionData', sectionData);
+    // console.log('section', section);
     return (
       <View style={styles.sectionHeader}>
         <Text>{capitalizeFirstLetter(section.replace('_', ' '))}</Text>
@@ -197,6 +210,14 @@ class SerieDetails extends Component {
 
   renderRow(row) {
     // console.log('renderRow', row);
+    // console.log(this.props.episodesFiles);
+    // console.log(this.props.profile);
+    const fileEpisode =
+      row.get('hasFile')
+      ? this.props.episodesFiles.find((ep) => ep.get('id') === row.get('episodeFileId'))
+      : null;
+
+    console.log(fileEpisode);
     return (
       <BlurView blurType="dark" style={styles.container}>
         <View style={styles.row}>
@@ -211,9 +232,16 @@ class SerieDetails extends Component {
           <Text style={styles.small}>
             {moment(row.get('airDateUtc')).fromNow()}
           </Text>
-          <Text style={styles.small}>
-            {row.get('hasFile') ? 'HDTV' : <Icon name="exclamation-triangle" color="black" />}
-          </Text>
+          {fileEpisode ?
+            <Label
+              textStyle={[
+                styles.small,
+                fileEpisode.get('qualityCutoffNotMet') ? styles.qualityNotMet : styles.qualityMet,
+              ]}
+              text={fileEpisode.getIn(['quality', 'quality', 'name'])}
+              invert={fileEpisode.get('qualityCutoffNotMet')}
+            />
+            : <Icon name="exclamation-triangle" color="black" />}
           <TouchableHighlight
             underlayColor="transparent"
             onPress={() =>
@@ -326,13 +354,17 @@ const stateToProps = (state, props) => {
   const serie = state.Series.get('series').find((s) => s.get('id') === props.serieId);
   return ({
     episodes: state.Series.get('serieEpisodes'),
+    episodesFiles: state.Series.get('serieEpisodesFiles'),
+    pendingFiles: state.Series.get('episodeFilesPending'),
     serie,
     pending: state.Series.get('episodePending'),
+    profile: state.Config.get('profile'),
   });
 };
 const dispatchToProps = (dispatch) => {
   const actions = {
     getEpisodes,
+    getEpisodesFiles,
     downloadEpisode,
     resetEspisodes,
     showModal,

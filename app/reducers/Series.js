@@ -6,7 +6,9 @@ const initialState = Immutable.fromJS({
   series: null,
   pending: false,
   serieEpisodes: null,
+  serieEpisodesFiles: null,
   episodePending: false,
+  episodeFilesPending: false,
 });
 
 const actions = {
@@ -18,6 +20,7 @@ const actions = {
       return state.merge({pending, error, series: payload});
     },
   },
+
   [Series.getEpisodes]: {
     next(state, {payload, error, pending}) {
       if (pending || error) {
@@ -26,6 +29,16 @@ const actions = {
       return state.merge({episodePending: pending, error, serieEpisodes: payload});
     },
   },
+
+  [Series.getEpisodesFiles]: {
+    next(state, {payload, error, pending}) {
+      if (pending || error) {
+        return state.merge({episodeFilesPending: pending, error});
+      }
+      return state.merge({episodeFilesPending: pending, error, serieEpisodesFiles: payload});
+    },
+  },
+
   [Series.resetEspisodes]: (state) => state.merge({serieEpisodes: null}),
 };
 

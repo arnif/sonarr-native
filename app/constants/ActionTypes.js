@@ -9,6 +9,7 @@ module.exports = {
   Series: keyMirror({
     getSeries: null,
     getEpisodes: null,
+    getEpisodesFiles: null,
     downloadEpisode: null,
     resetEspisodes: null,
   }),
