@@ -9,7 +9,6 @@ import {
   Text,
   TouchableHighlight,
 } from 'react-native';
-// import Accordion from 'react-native-accordion';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import moment from 'moment';
@@ -174,10 +173,6 @@ class SerieDetails extends Component {
       return;
     }
 
-    // const s = {
-    //   season1: [...],
-    //   seson2: [...],
-    // };
     const s = {};
     nextProps.episodes.forEach((episode) => {
       const currentNr = episode.get('seasonNumber');
@@ -189,9 +184,7 @@ class SerieDetails extends Component {
       }
       prevNr = currentNr;
     });
-    // console.log(s);
-    // console.log(reverseObject(s));
-    // console.log('arr', seasonsArr);
+
     this.setState({
       seasons: seasonsArr,
       dataSource: this.state.dataSource.cloneWithRowsAndSections(reverseObject(s)),
@@ -199,8 +192,6 @@ class SerieDetails extends Component {
   }
 
   renderSectionHeader(sectionData, section) {
-    // console.log('sectionData', sectionData);
-    // console.log('section', section);
     return (
       <View style={styles.sectionHeader}>
         <Text>{capitalizeFirstLetter(section.replace('_', ' '))}</Text>
@@ -209,15 +200,11 @@ class SerieDetails extends Component {
   }
 
   renderRow(row) {
-    // console.log('renderRow', row);
-    // console.log(this.props.episodesFiles);
-    // console.log(this.props.profile);
     const fileEpisode =
       row.get('hasFile')
       ? this.props.episodesFiles.find((ep) => ep.get('id') === row.get('episodeFileId'))
       : null;
 
-    console.log(fileEpisode);
     return (
       <BlurView blurType="dark" style={styles.container}>
         <View style={styles.row}>
@@ -235,7 +222,6 @@ class SerieDetails extends Component {
           {fileEpisode ?
             <Label
               textStyle={[
-                styles.small,
                 fileEpisode.get('qualityCutoffNotMet') ? styles.qualityNotMet : styles.qualityMet,
               ]}
               text={fileEpisode.getIn(['quality', 'quality', 'name'])}

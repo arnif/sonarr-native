@@ -48,12 +48,13 @@ const getLabelColor = (fileCount, episodeCount, hasEnded) => {
   return RED;
 };
 
-const SeriesItem = ({item, onPress}) => {
+const SeriesItem = ({item, onPress, profile}) => {
   const nextAiring = item.get('nextAiring');
   const hasEnded = item.get('status') === 'ended';
   const seasonNr = item.get('seasonCount');
   const episodeFileCount = item.get('episodeFileCount') || 0;
   const episodeCount = item.get('episodeCount') || 0;
+  const quality = profile.find((p) => p.get('id') === item.get('profileId'));
   return (
     <TouchableHighlight onPress={() => onPress()}>
       <View style={styles.root}>
@@ -69,9 +70,10 @@ const SeriesItem = ({item, onPress}) => {
               }
 
               <Label text={`Season ${seasonNr}`} color={BLUE} />
+              <Label text={quality.get('name')} />
 
               {nextAiring &&
-                <Label text={moment(nextAiring).format('dddd')} />
+                <Label text={moment(nextAiring).fromNow()} />
               }
               <View style={styles.end}>
                 <Label
@@ -90,6 +92,7 @@ const SeriesItem = ({item, onPress}) => {
 SeriesItem.propTypes = {
   item: PropTypes.object.isRequired,
   onPress: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 export default SeriesItem;

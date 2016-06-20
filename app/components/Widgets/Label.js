@@ -18,7 +18,7 @@ const Label = ({text, color = '#777777', style, textStyle, invert = false}) => {
     },
     text: {
       fontWeight: 'bold',
-      fontSize: 12,
+      fontSize: 10,
       color: invert ? color : 'white',
       textAlign: 'center',
     },

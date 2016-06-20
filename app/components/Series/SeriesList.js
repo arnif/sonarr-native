@@ -16,6 +16,7 @@ class SeriesList extends Component {
     series: PropTypes.object,
     pending: PropTypes.bool.isRequired,
     navigator: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -55,7 +56,7 @@ class SeriesList extends Component {
 
 
   render() {
-    const pending = this.props.pending;
+    const {pending, profile} = this.props;
     return (
       <ListView
         style={{backgroundColor: BACKGROUND_GRAY, marginTop: NAV_HEIGHT - 1}}
@@ -64,6 +65,7 @@ class SeriesList extends Component {
           <SeriesItem
             onPress={() => this.navigate(serie)}
             item={serie}
+            profile={profile}
           />
           )
         }
@@ -81,7 +83,9 @@ class SeriesList extends Component {
 }
 
 const stateToProps = (state) => ({
-  series: state.Series.get('series'), pending: state.Series.get('pending'),
+  series: state.Series.get('series'),
+  pending: state.Series.get('pending'),
+  profile: state.Config.get('profile'),
 });
 
 const dispatchToProps = (dispatch) => {
