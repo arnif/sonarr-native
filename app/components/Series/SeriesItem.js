@@ -52,8 +52,8 @@ const SeriesItem = ({item, onPress}) => {
   const nextAiring = item.get('nextAiring');
   const hasEnded = item.get('status') === 'ended';
   const seasonNr = item.get('seasonCount');
-  const episodeFileCount = item.get('episodeFileCount');
-  const episodeCount = item.get('episodeCount');
+  const episodeFileCount = item.get('episodeFileCount') || 0;
+  const episodeCount = item.get('episodeCount') || 0;
   return (
     <TouchableHighlight onPress={() => onPress()}>
       <View style={styles.root}>
