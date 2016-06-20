@@ -17,11 +17,15 @@ const styles = StyleSheet.create({
   posterImage: {
     width: 80,
     height: 120,
-    marginRight: 20,
+    marginRight: 10,
     borderRadius: 3,
   },
   textWrapper: {
     flex: 1,
+  },
+  label: {
+    marginTop: 5,
+    marginRight: 2,
   },
   labelWrapper: {
     flex: 1,
@@ -31,6 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   end: {
     alignSelf: 'flex-end',
@@ -66,17 +71,18 @@ const SeriesItem = ({item, onPress, profile}) => {
             <View style={styles.leftLabels}>
 
               {hasEnded &&
-                <Label text="Ended" color={RED} />
+                <Label style={styles.label} text="Ended" color={RED} />
               }
 
-              <Label text={`Season ${seasonNr}`} color={BLUE} />
-              <Label text={quality.get('name')} />
+              <Label style={styles.label} text={`Season ${seasonNr}`} color={BLUE} />
+              <Label style={styles.label} text={quality.get('name')} />
 
               {nextAiring &&
-                <Label text={moment(nextAiring).fromNow()} />
+                <Label style={styles.label} text={moment(nextAiring).fromNow()} />
               }
               <View style={styles.end}>
                 <Label
+                  style={styles.label}
                   text={`${episodeFileCount} / ${episodeCount}`}
                   color={getLabelColor(episodeFileCount, episodeCount, hasEnded)}
                 />
