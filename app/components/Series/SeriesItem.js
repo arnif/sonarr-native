@@ -20,6 +20,14 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderRadius: 3,
   },
+  title: {
+    fontSize: 18,
+    marginBottom: 4,
+  },
+  overview: {
+    fontSize: 10,
+    color: '#8E8E8E',
+  },
   textWrapper: {
     flex: 1,
   },
@@ -65,7 +73,8 @@ const SeriesItem = ({item, onPress, profile}) => {
       <View style={styles.root}>
         <SmartImage item={item} style={styles.posterImage} type="poster" />
         <View style={styles.textWrapper}>
-          <Text>{item.get('title')}</Text>
+          <Text style={styles.title} numberOfLines={1}>{item.get('title')}</Text>
+          <Text style={styles.overview} numberOfLines={4}>{item.get('overview')}</Text>
 
           <View style={styles.labelWrapper}>
             <View style={styles.leftLabels}>
