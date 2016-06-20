@@ -9,6 +9,7 @@ const actions = {
   [Series.getEpisodesFiles]: (id) => apiActions.get(`/episodefile?seriesId=${id}`),
   [Series.downloadEpisode]: (data) => apiActions.post(`/command`, data),
   [Series.resetEspisodes]: () => {},
+  [Series.addSerie]: (data) => apiActions.post('/series', data),
 
 };
 

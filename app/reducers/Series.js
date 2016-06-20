@@ -40,6 +40,16 @@ const actions = {
   },
 
   [Series.resetEspisodes]: (state) => state.merge({serieEpisodes: null}),
+
+  [Series.addSerie]: {
+    next(state, {payload, error, pending}) {
+      if (pending || error) {
+        return state.merge({pending, error});
+      }
+      console.log('SERIES REDUCER', payload);
+      return state;
+    },
+  },
 };
 
 export default handleActions(actions, initialState);

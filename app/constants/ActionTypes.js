@@ -12,6 +12,7 @@ module.exports = {
     getEpisodesFiles: null,
     downloadEpisode: null,
     resetEspisodes: null,
+    addSerie: null,
   }),
   Activity: keyMirror({
     getHistory: null,

@@ -3,9 +3,11 @@ import {View, Text, TouchableOpacity, Switch} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-// import {lookup} from '../../actions/search';
+import {addSerie, getSeries} from '../../actions/series';
+import {hideModal} from '../../actions/modal';
 import {BORDER_COLOR, TEXT_GRAY, RED, GREEN, GREEN_BORDER} from '../../constants/brand';
 import {MONITOR_ITEMS, SERIES_TYPES} from '../../constants/variables';
+import {getAddOptions} from '../../helpers/addShowHelper';
 import Label from '../Widgets/Label';
 import SmartImage from '../Widgets/SmartImage';
 import BottomPicker from '../Widgets/BottomPicker';
@@ -103,9 +105,28 @@ class SearchResultsItem extends Component {
       selectedPath: props.rootFolder.get(0),
     };
   }
+
+  async handleAddSeries(shouldSearch) {
+    console.log('shouldSearch', shouldSearch);
+    const seasons = this.props.item.get('seasons');
+    const addOptions = getAddOptions(this.state.selectedMonitor.get('id'), seasons, shouldSearch);
+    const addedData = {
+      ...this.props.item.toJS(),
+      rootFolderPath: this.state.selectedPath.get('path'),
+      seriesType: this.state.selectedSeriesType.get('name').toLowerCase(),
+      profileId: this.state.selectedProfile.get('id'),
+      qualityProfileId: this.state.selectedProfile.get('id'),
+      seasonFolder: this.state.isSeasonfolder,
+      ...addOptions,
+    };
+    await this.props.addSerie(addedData);
+    await this.props.getSeries();
+    this.props.hideModal();
+  }
+
   render() {
+    console.log(this.props);
     const {item, profile, rootFolder} = this.props;
-    console.log(rootFolder);
     const hasEnded = item.get('status') === 'ended';
     return (
       <View style={styles.row}>
@@ -185,12 +206,18 @@ class SearchResultsItem extends Component {
 
             </View>
             <View style={styles.addButtonsWrapper}>
-              <TouchableOpacity style={[styles.addButton, styles.leftButton]} onPress={() => {}}>
+              <TouchableOpacity
+                style={[styles.addButton, styles.leftButton]}
+                onPress={() => this.handleAddSeries()}
+              >
                 <Text>
                   <Icon name="plus" color="white" />
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.addButton, styles.rightButton]} onPress={() => {}}>
+              <TouchableOpacity
+                style={[styles.addButton, styles.rightButton]}
+                onPress={() => this.handleAddSeries(true)}
+              >
                 <Text>
                   <Icon name="search" color="white" />
                 </Text>
@@ -233,7 +260,7 @@ class SearchResultsItem extends Component {
             })}
             onCancel={() => this.setState({showSeriesTypePicker: false})}
             pickerItems={SERIES_TYPES}
-            selectedItem={this.state.selectedProfile}
+            selectedItem={this.state.selectedSeriesType}
           />
         }
 
@@ -257,6 +284,9 @@ SearchResultsItem.propTypes = {
   item: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   rootFolder: PropTypes.object.isRequired,
+  addSerie: PropTypes.func.isRequired,
+  getSeries: PropTypes.func.isRequired,
+  hideModal: PropTypes.func.isRequired,
 };
 
 const stateToProps = (state) => ({
@@ -266,6 +296,9 @@ const stateToProps = (state) => ({
 
 const dispatchToProps = (dispatch) => {
   const actions = {
+    addSerie,
+    getSeries,
+    hideModal,
   };
   return bindActionCreators(actions, dispatch);
 };
