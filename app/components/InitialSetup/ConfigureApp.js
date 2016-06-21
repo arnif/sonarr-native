@@ -83,16 +83,16 @@ class ConfigureApp extends Component {
           <TextInput
             style={styles.textInput}
             onChangeText={(hostname) => this.setState({hostname})}
-            value={this.state.hostname || apiActions.getHostName()}
-            placeholder="http://123.1.2.4:8989"
+            value={this.state.hostname}
+            placeholder={apiActions.getHostName() || "http://123.1.2.4:8989"}
           />
 
           <Text style={styles.label}>Sonarr API key</Text>
           <TextInput
             style={styles.textInput}
             onChangeText={(apiKey) => this.setState({apiKey})}
-            value={this.state.apiKey || apiActions.getApiKey()}
-            placeholder="abcd3rdakflk23"
+            value={this.state.apiKey}
+            placeholder={apiActions.getApiKey() || "abcd3rdakflk23"}
           />
 
           <TouchableOpacity onPress={() => this.onPressButton()}>
