@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {ListView, RefreshControl, View, Text} from 'react-native';
+import {ListView, RefreshControl} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getSeries} from '../../actions/series';
@@ -7,6 +7,7 @@ import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import {NAV_HEIGHT} from '../../constants/variables';
 import SeriesItem from './SeriesItem';
 import SerieDetails from './SerieDetails';
+import EmptyState from '../Widgets/EmptyState';
 
 
 class SeriesList extends Component {
@@ -62,11 +63,9 @@ class SeriesList extends Component {
     }
     if (this.props.series && this.props.series.size === 0) {
       return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
-          <Text style={{textAlign: 'center', fontSize: 10, color: BORDER_COLOR}}>
-            You must be new around here, You should add some series.
-          </Text>
-        </View>
+        <EmptyState
+          text="You must be new around here, You should add some series."
+        />
       );
     }
     return (

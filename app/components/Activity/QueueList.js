@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {
-  // View,
   ListView,
-  // Text,
   RefreshControl,
 } from 'react-native';
 import {connect} from 'react-redux';
@@ -11,6 +9,7 @@ import {getQueue} from '../../actions/activity';
 import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import HistoryItem from './HistoryItem';
 import SerieDetails from '../Series/SerieDetails';
+import EmptyState from '../Widgets/EmptyState';
 
 
 class QueueList extends Component {
@@ -48,7 +47,6 @@ class QueueList extends Component {
   }
 
   navigate(serie) {
-    console.log('serie', serie);
     this.props.navigator.push({
       component: SerieDetails,
       index: 1,
@@ -62,6 +60,11 @@ class QueueList extends Component {
 
   render() {
     const pending = this.props.pending;
+    if (this.props.queue && this.props.queue.size === 0) {
+      return (
+        <EmptyState text="Queue is empty" viewStyle={{marginTop: 100}} />
+      );
+    }
     return (
       <ListView
         style={{backgroundColor: BACKGROUND_GRAY, marginTop: 59}}

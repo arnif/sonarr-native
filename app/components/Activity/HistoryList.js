@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {
-  // View,
   ListView,
-  // Text,
   RefreshControl,
 } from 'react-native';
 import {connect} from 'react-redux';
@@ -11,6 +9,7 @@ import {getHistory} from '../../actions/activity';
 import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import HistoryItem from './HistoryItem';
 import SerieDetails from '../Series/SerieDetails';
+import EmptyState from '../Widgets/EmptyState';
 
 
 class HistoryList extends Component {
@@ -62,6 +61,11 @@ class HistoryList extends Component {
 
   render() {
     const pending = this.props.pending;
+    if (this.props.history && this.props.history.get('totalRecords') === 0) {
+      return (
+        <EmptyState text="History is empty" viewStyle={{marginTop: 100}} />
+      );
+    }
     return (
       <ListView
         style={{backgroundColor: BACKGROUND_GRAY, marginTop: 59}}
