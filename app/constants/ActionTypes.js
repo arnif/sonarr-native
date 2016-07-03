@@ -5,6 +5,7 @@ module.exports = {
     getConfig: null,
     getProfile: null,
     getRootFolder: null,
+    getSystemStatus: null,
   }),
   Series: keyMirror({
     getSeries: null,

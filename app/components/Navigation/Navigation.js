@@ -1,10 +1,12 @@
 import React, {Component, PropTypes} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getProfile, getRootFolder} from '../../actions/config';
+import axios from 'axios';
+import {getProfile, getRootFolder, getSystemStatus} from '../../actions/config';
+import * as apiActions from '../../actions/api';
 import {BLUE} from '../../constants/brand';
 import SeriesNavigation from './SeriesNavigation';
 import ActivityNavigation from './ActivityNavigation';
@@ -21,6 +23,7 @@ class Navigation extends Component {
   static propTypes = {
     getProfile: PropTypes.func.isRequired,
     getRootFolder: PropTypes.func.isRequired,
+    getSystemStatus: PropTypes.func.isRequired,
     profile: PropTypes.object,
     rootFolder: PropTypes.object,
     pending: PropTypes.bool,
@@ -54,6 +57,22 @@ class Navigation extends Component {
         this.setState({
           selectedTab: 'configure',
           loaded: true,
+        });
+      }
+    });
+
+
+    this.props.getSystemStatus().then((statusResponse) => {
+      console.log('system status', statusResponse);
+      if (statusResponse.payload.authentication === 'basic' || statusResponse.payload.authentication === 'forms') {
+        axios.get(apiActions.getHostName()).then(() => {}).catch((error) => {
+          if (error.status === 401) {
+            Alert.alert(
+              'Error',
+              'Unauthorized, App will work but no images are displayed...sorry ' +
+              '(turn of authentication) or help out at https://github.com/arnif/sonarr-native'
+           );
+          }
         });
       }
     });
@@ -110,12 +129,14 @@ const stateToProps = (state) => ({
   profile: state.Config.get('profile'),
   rootFolder: state.Config.get('rootFolder'),
   pending: state.Config.get('pending'),
+  systemStatus: state.Config.get('systemStatus'),
 });
 
 const dispatchToProps = (dispatch) => {
   const actions = {
     getProfile,
     getRootFolder,
+    getSystemStatus,
   };
   return bindActionCreators(actions, dispatch);
 };

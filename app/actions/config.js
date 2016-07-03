@@ -7,6 +7,7 @@ const actions = {
   [Config.getConfig]: () => apiActions.get(`/config/ui`),
   [Config.getProfile]: () => apiActions.get(`/profile`),
   [Config.getRootFolder]: () => apiActions.get(`/rootfolder`),
+  [Config.getSystemStatus]: () => apiActions.get(`/system/status`),
 };
 
 module.exports = mapValues(actions, (action, type) => createAction(type, action));

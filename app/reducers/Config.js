@@ -7,6 +7,7 @@ const initialState = Immutable.fromJS({
   pending: false,
   profile: null,
   rootFolder: null,
+  systemStatus: null,
 });
 
 const actions = {
@@ -34,6 +35,15 @@ const actions = {
         return state.merge({pending, error});
       }
       return state.merge({pending, error, rootFolder: payload});
+    },
+  },
+
+  [Config.getSystemStatus]: {
+    next(state, {payload, error, pending}) {
+      if (pending || error) {
+        return state.merge({pending, error});
+      }
+      return state.merge({pending, error, systemStatus: payload});
     },
   },
 };
