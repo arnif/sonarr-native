@@ -23,22 +23,44 @@ class Navigation extends Component {
     getRootFolder: PropTypes.func.isRequired,
     profile: PropTypes.object,
     rootFolder: PropTypes.object,
+    pending: PropTypes.bool,
   }
 
   constructor() {
     super();
     this.state = {
       selectedTab: 'series',
+      loaded: false,
     };
   }
 
-  componentDidMount() {
-    this.props.getProfile();
-    this.props.getRootFolder();
+  componentWillMount() {
+    this.props.getProfile().then((profileResponse) => {
+      if (profileResponse.payload) {
+        this.props.getRootFolder().then((rootFolderResponse) => {
+          if (!rootFolderResponse.payload && !rootFolderResponse.pending) {
+            this.setState({
+              selectedTab: 'configure',
+              loaded: true,
+            });
+          } else {
+            this.setState({
+              selectedTab: 'series',
+              loaded: true,
+            });
+          }
+        });
+      } else if (!profileResponse.pending) {
+        this.setState({
+          selectedTab: 'configure',
+          loaded: true,
+        });
+      }
+    });
   }
 
   render() {
-    if (!this.props.profile || !this.props.rootFolder) {
+    if (!this.state.loaded) {
       return null;
     }
     return (

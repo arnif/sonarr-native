@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {ListView, RefreshControl} from 'react-native';
+import {ListView, RefreshControl, View, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getSeries} from '../../actions/series';
@@ -16,7 +16,7 @@ class SeriesList extends Component {
     series: PropTypes.object,
     pending: PropTypes.bool.isRequired,
     navigator: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
+    profile: PropTypes.object,
   }
 
   constructor(props) {
@@ -57,6 +57,18 @@ class SeriesList extends Component {
 
   render() {
     const {pending, profile} = this.props;
+    if (!profile) {
+      return null;
+    }
+    if (this.props.series && this.props.series.size === 0) {
+      return (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
+          <Text style={{textAlign: 'center', fontSize: 10, color: BORDER_COLOR}}>
+            You must be new around here, You should add some series.
+          </Text>
+        </View>
+      );
+    }
     return (
       <ListView
         style={{backgroundColor: BACKGROUND_GRAY, marginTop: NAV_HEIGHT - 1}}

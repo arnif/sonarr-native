@@ -62,6 +62,9 @@ const getLabelColor = (fileCount, episodeCount, hasEnded) => {
 };
 
 const SeriesItem = ({item, onPress, profile}) => {
+  if (!profile) {
+    return null;
+  }
   const nextAiring = item.get('nextAiring');
   const hasEnded = item.get('status') === 'ended';
   const seasonNr = item.get('seasonCount');
@@ -107,7 +110,7 @@ const SeriesItem = ({item, onPress, profile}) => {
 SeriesItem.propTypes = {
   item: PropTypes.object.isRequired,
   onPress: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired,
+  profile: PropTypes.object,
 };
 
 export default SeriesItem;

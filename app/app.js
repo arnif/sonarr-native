@@ -56,6 +56,7 @@ class App extends Component {
 
 
   render() {
+    console.log(this.state);
     if (this.state.initialLoad && !this.state.keyFound) {
       return (
         <View style={{flex: 1, backgroundColor: 'white'}} />
