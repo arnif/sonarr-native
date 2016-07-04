@@ -20,16 +20,8 @@ class ModalWrapper extends Component {
         onRequestClose={() => console.log('close')}
       >
         <View style={{flex: 1}}>
-          {this.props.showClose &&
-            <View>
-              <TouchableHighlight underlayColor="transparent" onPress={this.props.hideModal}>
-                <Text style={{color: 'red'}}>Close</Text>
-              </TouchableHighlight>
-            </View>
-          }
           {this.props.modalData && this.props.modalData.toJS()}
         </View>
-
       </Modal>
     );
   }

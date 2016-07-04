@@ -21,6 +21,7 @@ import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import {capitalizeFirstLetter, reverseObject} from '../../helpers/utilities';
 import {getImageUrl} from '../Widgets/SmartImage';
 import Label from '../Widgets/Label';
+import EpisodeDetails from './EpisodeDetails';
 // const screen = Dimensions.get('window');
 
 const PARALLAX_HEADER_HEIGHT = 200;
@@ -210,7 +211,7 @@ class SerieDetails extends Component {
         <View style={styles.row}>
           <TouchableHighlight
             underlayColor="transparent"
-            onPress={() => this.props.showModal()}
+            onPress={() => this.props.showModal(<EpisodeDetails episode={row} series={this.props.serie} />)}
           >
             <Text style={styles.name} numberOfLines={1}>
               {`# ${row.get('episodeNumber')} ${row.get('title')}`}
