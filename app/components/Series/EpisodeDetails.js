@@ -7,20 +7,32 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {hideModal} from '../../actions/modal';
 import {BACKGROUND_GRAY, BLUE} from '../../constants/brand';
 import {padWithZero} from '../../helpers/utilities';
+import EpisodeSearch from './EpisodeDetails/EpisodeSearch';
+import EpisodeSummary from './EpisodeDetails/EpisodeSummary';
+import EpisodeHistory from './EpisodeDetails/EpisodeHistory';
 
 const screen = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+  title: {
+    marginTop: 6,
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  close: {
+    padding: 7,
+  },
   tabWrapper: {
     flex: 1,
     justifyContent: 'center',
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 4,
     height: 0,
   },
   tabText: {
@@ -74,6 +86,10 @@ const styles = StyleSheet.create({
   selectedText: {
     color: 'white',
   },
+
+  componentWrapper: {
+    marginTop: 60,
+  },
 });
 
 
@@ -84,7 +100,13 @@ class EpisodeDetails extends Component {
     this.state = {
       selectedRoute: {
         name: 'summary',
-        component: '',
+        component:
+          <EpisodeSummary
+            episode={this.props.episode}
+            episodeFile={this.props.episodeFile}
+            quality={this.props.quality}
+            series={this.props.series}
+          />,
       },
     };
   }
@@ -111,16 +133,28 @@ class EpisodeDetails extends Component {
           animated
         />
         <View>
-          <TouchableHighlight underlayColor="transparent" onPress={this.props.hideModal}>
-            <Text style={{color: 'red'}}>Close</Text>
+          <TouchableHighlight style={styles.close} underlayColor="transparent" onPress={this.props.hideModal}>
+            <Icon name="close" size={20} color="#B9B9B9" />
           </TouchableHighlight>
         </View>
-        <Text>{`${series.title} - ${episodeNr} - ${episode.title}`}</Text>
+        <Text style={styles.title} numberOfLines={1}>
+          {`${series.title} - ${episodeNr} - ${episode.title}`}
+        </Text>
 
         <View style={styles.tabWrapper}>
           <TouchableHighlight
             underlayColor="transparent"
-            onPress={() => this.onPress('summary', '')}
+            onPress={() =>
+              this.onPress(
+                'summary',
+                <EpisodeSummary
+                  episode={episode}
+                  episodeFile={this.props.episodeFile}
+                  quality={this.props.quality}
+                  series={this.props.series}
+                />
+              )
+            }
           >
             <View style={[styles.rightButton, this.state.selectedRoute.name === 'summary' && styles.selected]}>
               <Text style={[styles.tabText, this.state.selectedRoute.name === 'summary' && styles.selectedText]}>
@@ -130,7 +164,17 @@ class EpisodeDetails extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor="transparent"
-            onPress={() => this.onPress('history', '')}
+            onPress={() =>
+              this.onPress(
+                'history',
+                <EpisodeHistory
+                  episode={episode}
+                  episodeFile={this.props.episodeFile}
+                  quality={this.props.quality}
+                  series={this.props.series}
+                />
+              )
+            }
           >
             <View style={[styles.middleButton, this.state.selectedRoute.name === 'history' && styles.selected]}>
               <Text style={[styles.tabText, this.state.selectedRoute.name === 'history' && styles.selectedText]}>
@@ -141,7 +185,17 @@ class EpisodeDetails extends Component {
 
           <TouchableHighlight
             underlayColor="transparent"
-            onPress={() => this.onPress('search', '')}
+            onPress={() =>
+              this.onPress(
+                'search',
+                <EpisodeSearch
+                  episode={episode}
+                  episodeFile={this.props.episodeFile}
+                  quality={this.props.quality}
+                  series={this.props.series}
+                />
+              )
+            }
           >
             <View style={[styles.leftButton, this.state.selectedRoute.name === 'search' && styles.selected]}>
               <Text style={[styles.tabText, this.state.selectedRoute.name === 'search' && styles.selectedText]}>
@@ -151,6 +205,9 @@ class EpisodeDetails extends Component {
           </TouchableHighlight>
         </View>
 
+        <View style={styles.componentWrapper}>
+          {this.state.selectedRoute.component}
+        </View>
 
       </View>
     );
@@ -161,12 +218,19 @@ EpisodeDetails.propTypes = {
   hideModal: PropTypes.func.isRequired,
   episode: PropTypes.object.isRequired,
   series: PropTypes.object.isRequired,
+  episodeFile: PropTypes.object,
+  quality: PropTypes.object.isRequired,
 };
 
-const stateToProps = (state) => ({
-  results: state.Search.get('searchResults'),
-  pending: state.Search.get('pending'),
-});
+const stateToProps = (state, props) => {
+  const episodeFile =
+  state.Series.get('serieEpisodesFiles')
+  .find((episode) => episode.get('id') === props.episode.episodeFileId);
+  return {
+    episodeFile: episodeFile && episodeFile.toJS(),
+    quality: state.Config.get('profile').find((p) => p.get('id') === props.series.profileId).toJS(),
+  };
+};
 
 const dispatchToProps = (dispatch) => {
   const actions = {
