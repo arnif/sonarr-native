@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
 
   componentWrapper: {
     marginTop: 60,
+    padding: 5,
   },
 });
 
@@ -103,7 +104,6 @@ class EpisodeDetails extends Component {
         component:
           <EpisodeSummary
             episode={this.props.episode}
-            episodeFile={this.props.episodeFile}
             quality={this.props.quality}
             series={this.props.series}
           />,
@@ -149,7 +149,6 @@ class EpisodeDetails extends Component {
                 'summary',
                 <EpisodeSummary
                   episode={episode}
-                  episodeFile={this.props.episodeFile}
                   quality={this.props.quality}
                   series={this.props.series}
                 />
@@ -169,7 +168,6 @@ class EpisodeDetails extends Component {
                 'history',
                 <EpisodeHistory
                   episode={episode}
-                  episodeFile={this.props.episodeFile}
                   quality={this.props.quality}
                   series={this.props.series}
                 />
@@ -190,7 +188,6 @@ class EpisodeDetails extends Component {
                 'search',
                 <EpisodeSearch
                   episode={episode}
-                  episodeFile={this.props.episodeFile}
                   quality={this.props.quality}
                   series={this.props.series}
                 />
@@ -218,19 +215,12 @@ EpisodeDetails.propTypes = {
   hideModal: PropTypes.func.isRequired,
   episode: PropTypes.object.isRequired,
   series: PropTypes.object.isRequired,
-  episodeFile: PropTypes.object,
   quality: PropTypes.object.isRequired,
 };
 
-const stateToProps = (state, props) => {
-  const episodeFile =
-  state.Series.get('serieEpisodesFiles')
-  .find((episode) => episode.get('id') === props.episode.episodeFileId);
-  return {
-    episodeFile: episodeFile && episodeFile.toJS(),
-    quality: state.Config.get('profile').find((p) => p.get('id') === props.series.profileId).toJS(),
-  };
-};
+const stateToProps = (state, props) => ({
+  quality: state.Config.get('profile').find((p) => p.get('id') === props.series.profileId).toJS(),
+});
 
 const dispatchToProps = (dispatch) => {
   const actions = {

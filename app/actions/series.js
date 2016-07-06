@@ -10,6 +10,7 @@ const actions = {
   [Series.downloadEpisode]: (data) => apiActions.post(`/command`, data),
   [Series.resetEspisodes]: () => {},
   [Series.addSerie]: (data) => apiActions.post('/series', data),
+  [Series.deleteEpisodeFromFile]: (episodeFileId) => apiActions.remove(`/episodefile/${episodeFileId}`),
 
 };
 

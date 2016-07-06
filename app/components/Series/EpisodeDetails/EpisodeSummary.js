@@ -1,9 +1,11 @@
 import React, {PropTypes} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
 import moment from 'moment';
 import {BLUE} from '../../../constants/brand';
 import Label from '../../Widgets/Label';
 import EmptyState from '../../Widgets/EmptyState';
+import EpisodeFileList from './EpisodeFileList';
 
 const styles = StyleSheet.create({
   label: {
@@ -18,7 +20,7 @@ const styles = StyleSheet.create({
   },
   overview: {
     fontStyle: 'italic',
-    padding: 5,
+    marginBottom: 20,
   },
 });
 
@@ -37,6 +39,9 @@ const EpisodeSummary = ({episode, episodeFile, quality, series}) => (
     </View>
 
     {!episodeFile && <EmptyState text="No file available for this episode." />}
+    {episodeFile &&
+      <EpisodeFileList episodeFiles={episodeFile} />
+    }
   </View>
 );
 
@@ -47,4 +52,13 @@ EpisodeSummary.propTypes = {
   episodeFile: PropTypes.object,
 };
 
-export default EpisodeSummary;
+const stateToProps = (state, props) => {
+  const episodeFile =
+  state.Series.get('serieEpisodesFiles')
+  .find((episode) => episode.get('id') === props.episode.episodeFileId);
+  return {
+    episodeFile: episodeFile && episodeFile.toJS(),
+  };
+};
+
+export default connect(stateToProps, null)(EpisodeSummary);

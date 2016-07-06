@@ -14,6 +14,7 @@ module.exports = {
     downloadEpisode: null,
     resetEspisodes: null,
     addSerie: null,
+    deleteEpisodeFromFile: null,
   }),
   Activity: keyMirror({
     getHistory: null,

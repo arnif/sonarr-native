@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Modal, Text, TouchableHighlight} from 'react-native';
+import {View, Modal} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {hideModal, showModal} from '../../actions/modal';
