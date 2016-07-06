@@ -134,7 +134,7 @@ class EpisodeDetails extends Component {
         />
         <View>
           <TouchableHighlight style={styles.close} underlayColor="transparent" onPress={this.props.hideModal}>
-            <Icon name="close" size={20} color="#B9B9B9" />
+            <Icon name="close" size={22} color="#B9B9B9" />
           </TouchableHighlight>
         </View>
         <Text style={styles.title} numberOfLines={1}>
