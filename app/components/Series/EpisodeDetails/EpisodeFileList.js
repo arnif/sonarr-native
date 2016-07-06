@@ -17,6 +17,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'flex-start',
   },
+  close: {
+    padding: 5,
+    backgroundColor: RED,
+    borderRadius: 3,
+    flex: 1,
+    alignSelf: 'flex-start',
+  },
 });
 
 class EpisodeFileList extends Component {
@@ -44,15 +51,13 @@ class EpisodeFileList extends Component {
   }
 
   async onDelete(file) {
-    const response = await this.props.deleteEpisodeFromFile(file.id);
-    console.log('response', response);
+    await this.props.deleteEpisodeFromFile(file.id);
     this.props.getEpisodes(file.seriesId);
     this.props.getEpisodesFiles(file.seriesId);
   }
 
   getRows(props) {
     const {episodeFiles} = props;
-    console.log('GETROWS', episodeFiles);
     let rows = [];
     if (episodeFiles !== null) {
       rows = [episodeFiles];
@@ -95,7 +100,7 @@ class EpisodeFileList extends Component {
               underlayColor="transparent"
               onPress={() => this.showConfirmDialog(file)}
             >
-              <Icon name="close" size={20} color={RED} />
+              <Icon name="close" size={20} color="white" />
             </TouchableHighlight>
           </View>
           )

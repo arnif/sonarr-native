@@ -17,7 +17,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {BlurView} from 'react-native-blur';
 import {getEpisodes, getEpisodesFiles, downloadEpisode, resetEspisodes} from '../../actions/series';
 import {showModal} from '../../actions/modal';
-import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
+import {BORDER_COLOR, BACKGROUND_GRAY, TEXT_GRAY, GREEN} from '../../constants/brand';
 import {capitalizeFirstLetter, reverseObject} from '../../helpers/utilities';
 import {getImageUrl} from '../Widgets/SmartImage';
 import Label from '../Widgets/Label';
@@ -52,7 +52,28 @@ const styles = StyleSheet.create({
   small: {
     fontSize: 10,
     marginRight: 5,
-    color: 'black',
+    color: TEXT_GRAY,
+  },
+
+  button: {
+    padding: 8,
+    borderRadius: 3,
+    backgroundColor: GREEN,
+  },
+
+  buttonLeft: {
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+
+  buttonRight: {
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+  },
+
+  divider: {
+    borderWidth: 1,
+    borderColor: BACKGROUND_GRAY,
   },
 
   qualityNotMet: {
@@ -181,7 +202,7 @@ class SerieDetails extends Component {
         s[`season_${currentNr}`] = [episode];
         seasonsArr.push(`season_${currentNr}`);
       } else {
-        s[`season_${currentNr}`] = [...s[`season_${currentNr}`], episode];
+        s[`season_${currentNr}`] = [episode, ...s[`season_${currentNr}`]];
       }
       prevNr = currentNr;
     });
@@ -207,29 +228,38 @@ class SerieDetails extends Component {
       : null;
 
     return (
-      <BlurView blurType="dark" style={styles.container}>
-        <View style={styles.row}>
-          <TouchableHighlight
-            underlayColor="transparent"
-            onPress={() => this.props.showModal(<EpisodeDetails episode={row} series={this.props.serie} />)}
-          >
-            <Text style={styles.name} numberOfLines={1}>
-              {`# ${row.get('episodeNumber')} ${row.get('title')}`}
+      <View style={styles.row}>
+        <TouchableHighlight
+          underlayColor="transparent"
+          onPress={() => this.props.showModal(<EpisodeDetails episode={row} series={this.props.serie} />)}
+        >
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{marginRight: 10}}>
+              {row.get('episodeNumber')}
             </Text>
-          </TouchableHighlight>
-          <Text style={styles.small}>
-            {moment(row.get('airDateUtc')).fromNow()}
-          </Text>
-          {fileEpisode ?
-            <Label
-              textStyle={[
-                fileEpisode.get('qualityCutoffNotMet') ? styles.qualityNotMet : styles.qualityMet,
-              ]}
-              text={fileEpisode.getIn(['quality', 'quality', 'name'])}
-              invert={fileEpisode.get('qualityCutoffNotMet')}
-            />
-            : <Icon name="exclamation-triangle" color="black" />}
+            <View>
+              <Text style={styles.name} numberOfLines={1}>
+                {row.get('title')}
+              </Text>
+              <Text style={styles.small}>
+                {row.get('airDateUtc') && moment(row.get('airDateUtc')).fromNow()}
+              </Text>
+            </View>
+          </View>
+        </TouchableHighlight>
+        {fileEpisode ?
+          <Label
+            textStyle={[
+              fileEpisode.get('qualityCutoffNotMet') ? styles.qualityNotMet : styles.qualityMet,
+            ]}
+            text={fileEpisode.getIn(['quality', 'quality', 'name'])}
+            invert={fileEpisode.get('qualityCutoffNotMet')}
+          />
+          : <Icon name="exclamation-triangle" color="black" />}
+
+        <View style={{flexDirection: 'row'}}>
           <TouchableHighlight
+            style={[styles.button, styles.buttonLeft]}
             underlayColor="transparent"
             onPress={() =>
               this.props.downloadEpisode({
@@ -239,11 +269,24 @@ class SerieDetails extends Component {
             }
           >
             <Text>
-              <Icon name="search" color="black" />
+              <Icon name="search" color="white" />
+            </Text>
+          </TouchableHighlight>
+          <View style={styles.divider} />
+
+          <TouchableHighlight
+            style={[styles.button, styles.buttonRight]}
+            underlayColor="transparent"
+            onPress={() =>
+              console.log('show modal with manual download stuff...')
+            }
+          >
+            <Text>
+              <Icon name="user" color="white" />
             </Text>
           </TouchableHighlight>
         </View>
-      </BlurView>
+      </View>
     );
   }
 

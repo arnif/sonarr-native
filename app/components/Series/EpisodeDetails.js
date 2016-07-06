@@ -123,7 +123,6 @@ class EpisodeDetails extends Component {
 
   render() {
     const {episode, series} = this.props;
-    console.log('details', this.props);
     const episodeNr = `${episode.seasonNumber}x${padWithZero(episode.episodeNumber)}`;
     return (
       <View>
