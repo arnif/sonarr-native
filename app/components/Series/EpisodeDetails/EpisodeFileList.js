@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   label: {
-    flex: 1,
     alignSelf: 'flex-start',
   },
   close: {

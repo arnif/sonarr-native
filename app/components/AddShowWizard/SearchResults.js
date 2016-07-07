@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {ActivityIndicatorIOS, View, Text, ListView, StyleSheet} from 'react-native';
+import {ActivityIndicator, View, Text, ListView, StyleSheet} from 'react-native';
 import {BORDER_COLOR} from '../../constants/brand';
 import SearchResultsItem from './SearchResultsItem';
 
@@ -71,7 +71,7 @@ class SearchResults extends Component {
         enableEmptySections
         renderFooter={() => (
           <View style={styles.loadingWrapper}>
-            <ActivityIndicatorIOS
+            <ActivityIndicator
               animating={this.props.pending}
             />
           </View>

@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   labelWrapper: {
-    flex: 1,
     justifyContent: 'center',
     flexDirection: 'row',
     marginBottom: 10,
