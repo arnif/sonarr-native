@@ -1,7 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {
-  // Dimensions,
-  ActivityIndicator,
   ListView,
   Image,
   View,
@@ -23,6 +21,7 @@ import {BORDER_COLOR, BACKGROUND_GRAY, TEXT_GRAY, GREEN} from '../../constants/b
 import {capitalizeFirstLetter, reverseObject} from '../../helpers/utilities';
 import {getImageUrl} from '../Widgets/SmartImage';
 import Label from '../Widgets/Label';
+import FullPageLoadingIndicator from '../Widgets/FullPageLoadingIndicator';
 import EpisodeDetails from './EpisodeDetails';
 // const screen = Dimensions.get('window');
 
@@ -296,7 +295,7 @@ class SerieDetails extends Component {
   }
 
   render() {
-    const {serie, episodePending} = this.props;
+    const {serie, episodePending, episodes} = this.props;
     const imageUrl = getImageUrl(serie, 'fanart');
 
     const {onScroll = () => {}} = this.props;
@@ -305,12 +304,8 @@ class SerieDetails extends Component {
         <StatusBar
           barStyle="light-content"
         />
-        {episodePending &&
-          <ActivityIndicator
-            animating={episodePending}
-            style={{height: 80}}
-            size="large"
-          />
+        {(episodePending || !episodes) &&
+          <FullPageLoadingIndicator />
         }
         <ListView
           enableEmptySections
