@@ -67,7 +67,7 @@ class QueueList extends Component {
     }
     return (
       <ListView
-        style={{backgroundColor: BACKGROUND_GRAY, marginTop: 59}}
+        style={{backgroundColor: BACKGROUND_GRAY}}
         dataSource={this.state.dataSource}
         renderRow={(item) => (
           <HistoryItem item={item} onPress={() => this.navigate(item)} />

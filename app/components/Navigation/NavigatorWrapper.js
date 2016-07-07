@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     color: BLUE,
   },
   nav: {
+    flex: 1,
     height: NAV_HEIGHT,
     backgroundColor: 'white',
     borderBottomWidth: 1,

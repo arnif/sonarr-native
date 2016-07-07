@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   StyleSheet,
 } from 'react-native';
-import {BLUE} from '../../constants/brand';
+import {BLUE, BORDER_COLOR} from '../../constants/brand';
 import HistoryList from './HistoryList';
 import QueueList from './QueueList';
 
@@ -14,15 +14,19 @@ const screen = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   tabWrapper: {
-    flex: 1,
+    // flex: 1,
+    // position: 'absolute',
     justifyContent: 'center',
     flexDirection: 'row',
     marginTop: 60,
-    height: 0,
+    height: 60,
+    borderBottomWidth: 1,
+    borderColor: BORDER_COLOR,
   },
   tabText: {
     textAlign: 'center',
     color: BLUE,
+    flex: 1,
   },
 
   rightButton: {
@@ -85,7 +89,7 @@ class Activity extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <View style={styles.tabWrapper}>
           <TouchableHighlight
             underlayColor="transparent"
@@ -108,7 +112,9 @@ class Activity extends Component {
             </View>
           </TouchableHighlight>
         </View>
-        {this.state.selectedRoute.component}
+        <View style={{flex: 1}}>
+          {this.state.selectedRoute.component}
+        </View>
       </View>
     );
   }
