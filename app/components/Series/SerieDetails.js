@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {
   // Dimensions,
+  ActivityIndicator,
   ListView,
   Image,
   View,
@@ -8,6 +9,7 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  InteractionManager,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -163,6 +165,7 @@ class SerieDetails extends Component {
     resetEspisodes: PropTypes.func.isRequired,
     showModal: PropTypes.func.isRequired,
     onScroll: PropTypes.func,
+    episodePending: PropTypes.bool.isRequired,
   };
 
   constructor() {
@@ -184,8 +187,10 @@ class SerieDetails extends Component {
 
   componentDidMount() {
     // fetch serie details (seasons etc)
-    this.props.getEpisodesFiles(this.props.serie.get('id'));
-    setTimeout(() => this.props.getEpisodes(this.props.serie.get('id')), 500); // delay otherwise super laggy
+    InteractionManager.runAfterInteractions(() => {
+      this.props.getEpisodes(this.props.serie.get('id'));
+      this.props.getEpisodesFiles(this.props.serie.get('id'));
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -291,7 +296,7 @@ class SerieDetails extends Component {
   }
 
   render() {
-    const {serie} = this.props;
+    const {serie, episodePending} = this.props;
     const imageUrl = getImageUrl(serie, 'fanart');
 
     const {onScroll = () => {}} = this.props;
@@ -300,6 +305,13 @@ class SerieDetails extends Component {
         <StatusBar
           barStyle="light-content"
         />
+        {episodePending &&
+          <ActivityIndicator
+            animating={episodePending}
+            style={{height: 80}}
+            size="large"
+          />
+        }
         <ListView
           enableEmptySections
           dataSource={this.state.dataSource}
@@ -385,9 +397,8 @@ const stateToProps = (state, props) => {
   return ({
     episodes: state.Series.get('serieEpisodes'),
     episodesFiles: state.Series.get('serieEpisodesFiles'),
-    pendingFiles: state.Series.get('episodeFilesPending'),
     serie,
-    pending: state.Series.get('episodePending'),
+    episodePending: state.Series.get('episodePending'),
     profile: state.Config.get('profile'),
   });
 };
