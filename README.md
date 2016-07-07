@@ -6,5 +6,7 @@ React native app for Sonarr
 https://facebook.github.io/react-native/
 
 clone this repo
-npm install
-npm run ios
+
+`npm install` 
+
+`npm run ios`
