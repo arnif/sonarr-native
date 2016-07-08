@@ -35,6 +35,8 @@ const actions = {
       return state;
     },
   },
+
+  [Search.clearReleases]: (state) => state.merge({episodeReleases: []}),
 };
 
 export default handleActions(actions, initialState);

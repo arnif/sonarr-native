@@ -8,6 +8,7 @@ const actions = {
   [Search.searchReleases]: (episodeId) =>
     apiActions.get(`/release?episodeId=${episodeId}&sort_by=releaseWeight&order=asc`),
   [Search.downloadRelease]: (data) => apiActions.post('/release', data),
+  [Search.clearReleases]: () => {},
 };
 
 module.exports = mapValues(actions, (action, type) => createAction(type, action));

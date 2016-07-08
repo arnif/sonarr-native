@@ -28,5 +28,6 @@ module.exports = {
     lookup: null,
     searchReleases: null,
     downloadRelease: null,
+    clearReleases: null,
   }),
 };
