@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     padding: 7,
   },
   tabWrapper: {
-    flex: 1,
     justifyContent: 'center',
     flexDirection: 'row',
     marginTop: 4,
@@ -88,26 +87,22 @@ const styles = StyleSheet.create({
   },
 
   componentWrapper: {
+    flex: 1,
     marginTop: 60,
-    padding: 5,
   },
 });
 
 
 class EpisodeDetails extends Component {
 
+  static propTypes = {
+    selectedTab: PropTypes.string,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      selectedRoute: {
-        name: 'summary',
-        component:
-          <EpisodeSummary
-            episode={this.props.episode}
-            quality={this.props.quality}
-            series={this.props.series}
-          />,
-      },
+      selectedRoute: this.getSelectedRoute(),
     };
   }
 
@@ -120,12 +115,35 @@ class EpisodeDetails extends Component {
     });
   }
 
+  getSelectedRoute() {
+    if (this.props.selectedTab === 'search') {
+      return {
+        name: 'search',
+        component:
+          <EpisodeSearch
+            episode={this.props.episode}
+            quality={this.props.quality}
+            series={this.props.series}
+          />,
+      };
+    }
+    return {
+      name: 'summary',
+      component:
+        <EpisodeSummary
+          episode={this.props.episode}
+          quality={this.props.quality}
+          series={this.props.series}
+        />,
+    };
+  }
+
 
   render() {
     const {episode, series} = this.props;
     const episodeNr = `${episode.seasonNumber}x${padWithZero(episode.episodeNumber)}`;
     return (
-      <View>
+      <View style={{flex: 1}}>
         <StatusBar
           backgroundColor={BACKGROUND_GRAY}
           hidden

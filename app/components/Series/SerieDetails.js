@@ -282,7 +282,7 @@ class SerieDetails extends Component {
             style={[styles.button, styles.buttonRight]}
             underlayColor="transparent"
             onPress={() =>
-              console.log('show modal with manual download stuff...')
+              this.props.showModal(<EpisodeDetails episode={row} series={this.props.serie} selectedTab="search" />)
             }
           >
             <Text>

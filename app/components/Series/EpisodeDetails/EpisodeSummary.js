@@ -8,6 +8,9 @@ import EmptyState from '../../Widgets/EmptyState';
 import EpisodeFileList from './EpisodeFileList';
 
 const styles = StyleSheet.create({
+  root: {
+    padding: 5,
+  },
   label: {
     marginTop: 5,
     marginRight: 5,
@@ -24,7 +27,7 @@ const styles = StyleSheet.create({
 });
 
 const EpisodeSummary = ({episode, episodeFile, quality, series}) => (
-  <View>
+  <View style={styles.root}>
     <View style={styles.labelWrapper}>
       <Label style={styles.label} text={quality.name} />
       <Label style={styles.label} text={series.network} color={BLUE} />

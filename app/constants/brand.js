@@ -8,4 +8,5 @@ module.exports = {
   BORDER_COLOR: '#D4D3D3',
   BACKGROUND_GRAY: '#F5F8FA',
   TEXT_GRAY: '#aaaaaa',
+  YELLOW: '#F0AD4E',
 };

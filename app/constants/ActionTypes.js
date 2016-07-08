@@ -26,5 +26,7 @@ module.exports = {
   }),
   Search: keyMirror({
     lookup: null,
+    searchReleases: null,
+    downloadRelease: null,
   }),
 };
