@@ -4,7 +4,7 @@ import moment from 'moment';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {searchReleases, downloadRelease} from '../../../actions/search';
+import {searchReleases, downloadRelease, clearReleases} from '../../../actions/search';
 import {hideModal} from '../../../actions/modal';
 import {BACKGROUND_GRAY, BORDER_COLOR, TEXT_GRAY, GREEN, GREEN_BORDER, YELLOW} from '../../../constants/brand';
 import {humanFileSize} from '../../../helpers/utilities';
@@ -59,6 +59,7 @@ class EpisodeSearch extends Component {
     pending: PropTypes.bool.isRequired,
     episodeReleases: PropTypes.object,
     hideModal: PropTypes.func.isRequired,
+    clearReleases: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -78,6 +79,10 @@ class EpisodeSearch extends Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.getRows(nextProps)),
     });
+  }
+
+  componentWillUnmount() {
+    this.props.clearReleases();
   }
 
   getRows(props) {
@@ -155,6 +160,7 @@ const dispatchToProps = (dispatch) => {
     searchReleases,
     downloadRelease,
     hideModal,
+    clearReleases,
   };
   return bindActionCreators(actions, dispatch);
 };
