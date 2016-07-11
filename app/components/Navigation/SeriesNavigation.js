@@ -32,18 +32,20 @@ class SeriesNavigation extends Component {
 
     return (
       <View style={{flex: 1}}>
-        {this.props.showFilterPicker && <BottomPicker
-          pickerItems={SERIES_FILTER}
-          selectedItem={this.state.selectedFilter}
-          onSubmit={(value) => {
-            this.props.sortSeries(value.get('param'));
-            this.props.hideFilter();
-            this.setState({selectedFilter: value});
-          }}
-          onCancel={() => {
-            this.props.hideFilter();
-          }}
-        />}
+        {this.props.showFilterPicker &&
+          <BottomPicker
+            pickerItems={SERIES_FILTER}
+            selectedItem={this.state.selectedFilter}
+            onSubmit={(value) => {
+              this.props.sortSeries(value.get('param'));
+              this.props.hideFilter();
+              this.setState({selectedFilter: value});
+            }}
+            onCancel={() => {
+              this.props.hideFilter();
+            }}
+          />
+        }
         <NavigatorWrapper initialRoute={initialRoute} />
       </View>
     );

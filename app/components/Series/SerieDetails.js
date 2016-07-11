@@ -217,6 +217,13 @@ class SerieDetails extends Component {
     });
   }
 
+  getFileEpisode(row) {
+    if (!this.props.episodesFiles || !row.get('hasFile')) {
+      return null;
+    }
+    return this.props.episodesFiles.find((ep) => ep.get('id') === row.get('episodeFileId'));
+  }
+
   renderSectionHeader(sectionData, section) {
     return (
       <View style={styles.sectionHeader}>
@@ -226,10 +233,7 @@ class SerieDetails extends Component {
   }
 
   renderRow(row) {
-    const fileEpisode =
-      row.get('hasFile')
-      ? this.props.episodesFiles.find((ep) => ep.get('id') === row.get('episodeFileId'))
-      : null;
+    const fileEpisode = this.getFileEpisode(row);
 
     return (
       <View style={styles.row}>

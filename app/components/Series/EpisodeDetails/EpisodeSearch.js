@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Dimensions, View, Text, ListView, TouchableHighlight, StyleSheet, RefreshControl} from 'react-native';
+import {Dimensions, View, Text, ListView, TouchableHighlight, StyleSheet} from 'react-native';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -95,12 +95,12 @@ class EpisodeSearch extends Component {
   }
 
   render() {
-    const {pending, episodeReleases} = this.props;
+    const {pending} = this.props;
     // TODO fix days old (could be hrs or min even years ???)
     // TODO show rejected reason if there is any...
     return (
       <View style={{flex: 1}}>
-        {(pending && !episodeReleases) &&
+        {(pending) &&
           <FullPageLoadingIndicator />
         }
         <ListView
@@ -141,13 +141,6 @@ class EpisodeSearch extends Component {
               </View>
             </View>
             )
-          }
-          refreshControl={
-            <RefreshControl
-              tintColor={BORDER_COLOR}
-              refreshing={pending}
-              onRefresh={() => this.props.searchReleases(this.props.episode.id)}
-            />
           }
         />
       </View>

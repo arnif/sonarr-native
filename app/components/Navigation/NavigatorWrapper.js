@@ -77,7 +77,7 @@ class NavigatorWrapper extends Component { // https://medium.com/@dabit3/react-n
               }}
             >
               <Text style={styles.leftNavButtonText}>
-                <Icon name="chevron-left" />
+                <Icon size={24} name="chevron-left" />
               </Text>
             </TouchableHighlight>
           );
