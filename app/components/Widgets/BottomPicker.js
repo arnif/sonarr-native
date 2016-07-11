@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {View, Text, Modal, Picker, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
+import {RED, BLUE} from '../../constants/brand';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -26,6 +27,18 @@ const styles = StyleSheet.create({
   },
   bottomPicker: {
     width: SCREEN_WIDTH,
+  },
+  leftButton: {
+    fontSize: 18,
+    marginLeft: 10,
+    marginTop: 4,
+    color: RED,
+  },
+  rightButton: {
+    fontSize: 18,
+    marginRight: 10,
+    marginTop: 4,
+    color: BLUE,
   },
 });
 
@@ -64,12 +77,12 @@ export default class BottomPicker extends Component {
           <View style={styles.modalContainer}>
             <View style={styles.buttonView}>
               <TouchableOpacity onPress={() => this.props.onCancel()}>
-                <Text>Cancel</Text>
+                <Text style={styles.leftButton}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this.props.onSubmit(this.getSelcetedItem(this.state.selectedValue))}
               >
-                <Text>Confirm</Text>
+                <Text style={styles.rightButton}>Confirm</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.mainBox}>

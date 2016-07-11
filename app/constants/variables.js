@@ -34,5 +34,30 @@ module.exports = {
     id: 2,
     name: 'Anime',
   }]),
+  SERIES_FILTER: Immutable.fromJS([{
+    id: 0,
+    name: 'Title',
+    param: 'sortTitle',
+  }, {
+    id: 1,
+    name: 'Season',
+    param: 'seasonCount',
+  }, {
+    id: 2,
+    name: 'Quality',
+    param: 'profileId',
+  }, {
+    id: 3,
+    name: 'Network',
+    param: 'network',
+  }, {
+    id: 4,
+    name: 'Next Airing',
+    param: 'nextAiring',
+  }, {
+    id: 5,
+    name: 'Episodes',
+    param: 'totalEpisodeCount',
+  }]),
   NAV_HEIGHT: 62,
 };

@@ -17,6 +17,12 @@ const styles = StyleSheet.create({
     marginTop: 8,
     color: BLUE,
   },
+  filterButtonText: {
+    fontSize: 18,
+    marginLeft: 13,
+    marginTop: 8,
+    color: BLUE,
+  },
   nav: {
     flex: 1,
     height: NAV_HEIGHT,
@@ -50,6 +56,18 @@ class NavigatorWrapper extends Component { // https://medium.com/@dabit3/react-n
 
     this.NavigationBarRouteMapper = {
       LeftButton(route, navigator, index) { // route, navigator, index, navState
+        if (route.name === 'Series') {
+          return (
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => route.onLeftPress()}
+            >
+              <Text style={styles.filterButtonText}>
+                {route.leftText}
+              </Text>
+            </TouchableHighlight>
+          );
+        }
         if (index > 0) {
           return (
             <TouchableHighlight

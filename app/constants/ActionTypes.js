@@ -15,6 +15,9 @@ module.exports = {
     resetEspisodes: null,
     addSerie: null,
     deleteEpisodeFromFile: null,
+    showFilter: null,
+    hideFilter: null,
+    sortSeries: null,
   }),
   Activity: keyMirror({
     getHistory: null,
