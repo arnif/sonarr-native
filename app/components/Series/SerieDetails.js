@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {
+  ActivityIndicator,
   ListView,
   Image,
   View,
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
 
   container: {
@@ -110,9 +111,9 @@ const styles = StyleSheet.create({
   },
   stickySectionText: {
     color: 'white',
-    fontSize: 20,
-    margin: 10,
     textAlign: 'center',
+    marginTop: 14,
+    fontSize: 18,
   },
   // fixedSection: {
   //   position: 'absolute',
@@ -187,8 +188,7 @@ class SerieDetails extends Component {
   componentDidMount() {
     // fetch serie details (seasons etc)
     InteractionManager.runAfterInteractions(() => {
-      this.props.getEpisodes(this.props.serie.get('id'));
-      this.props.getEpisodesFiles(this.props.serie.get('id'));
+      this.fetchEpisodes();
     });
   }
 
@@ -222,6 +222,12 @@ class SerieDetails extends Component {
       return null;
     }
     return this.props.episodesFiles.find((ep) => ep.get('id') === row.get('episodeFileId'));
+  }
+
+  fetchEpisodes() {
+    console.log('fetch');
+    this.props.getEpisodes(this.props.serie.get('id'));
+    this.props.getEpisodesFiles(this.props.serie.get('id'));
   }
 
   renderSectionHeader(sectionData, section) {
@@ -302,13 +308,12 @@ class SerieDetails extends Component {
     const {serie, episodePending, episodes} = this.props;
     const imageUrl = getImageUrl(serie, 'fanart');
 
-    const {onScroll = () => {}} = this.props;
     return (
       <View style={styles.root}>
         <StatusBar
           barStyle="light-content"
         />
-        {(episodePending || !episodes) &&
+        {(episodePending && !episodes) &&
           <FullPageLoadingIndicator />
         }
         <ListView
@@ -320,7 +325,16 @@ class SerieDetails extends Component {
 
           renderScrollComponent={() => (
             <ParallaxScrollView
-              onScroll={onScroll}
+              onScroll={(e) => {
+                if (e.nativeEvent.contentOffset.y < -50) {
+                  if (!this.overThreshold) {
+                    this.fetchEpisodes();
+                    this.overThreshold = true;
+                  }
+                } else if (this.overThreshold) {
+                  this.overThreshold = false;
+                }
+              }}
               contentBackgroundColor="white"
               backgroundColor="transparent"
               headerBackgroundColor="#333"
@@ -335,7 +349,19 @@ class SerieDetails extends Component {
                     source={{uri: imageUrl,
                     width: window.width,
                     height: PARALLAX_HEADER_HEIGHT}}
-                  />
+                  >
+                    <ActivityIndicator
+                      animating={episodePending && (episodes && episodes.size > 0)}
+                      style={{
+                        height: 80,
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                      color="white"
+                      size="large"
+                    />
+                  </Image>
 
                   <View
                     style={{
