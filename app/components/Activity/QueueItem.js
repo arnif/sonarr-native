@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Dimensions, View, StyleSheet, Text, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {padWithZero} from '../../helpers/utilities';
-import {BORDER_COLOR, TEXT_GRAY, RED} from '../../constants/brand';
+import {BORDER_COLOR, TEXT_GRAY, RED, GREEN} from '../../constants/brand';
 import Label from '../Widgets/Label';
 import Progressbar from '../Widgets/Progressbar';
 
@@ -42,6 +42,9 @@ const styles = StyleSheet.create({
   rightViewWrapper: {
     alignItems: 'center',
   },
+  protocolLabel: {
+    marginTop: 3,
+  },
 });
 
 const episodeEventTypeIconMap = {
@@ -54,7 +57,7 @@ const episodeEventTypeIconMap = {
 const QueueItem = ({item, onPress}) => {
   const seasonNum = item.getIn(['episode', 'seasonNumber']);
   const episodeNum = item.getIn(['episode', 'episodeNumber']);
-  console.log(item);
+
   return (
     <View style={styles.root}>
       <View style={styles.content}>
@@ -76,9 +79,13 @@ const QueueItem = ({item, onPress}) => {
               {padWithZero(seasonNum)}x{padWithZero(episodeNum)}
             </Text>
             <Label
-              style={styles.label}
               text={item.getIn(['quality', 'quality', 'name'])}
               invert={item.get('qualityCutoffNotMet')}
+            />
+            <Label
+              style={styles.protocolLabel}
+              text={item.get('protocol')}
+              color={GREEN}
             />
           </View>
         </View>
