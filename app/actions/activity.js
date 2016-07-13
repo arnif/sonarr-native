@@ -6,6 +6,7 @@ import * as apiActions from './api';
 const actions = {
   [Activity.getHistory]: () => apiActions.get('/history?page=1&pageSize=15&sortKey=date&sortDir=desc'),
   [Activity.getQueue]: () => apiActions.get('/queue?sort_by=timeleft&order=asc'),
+  [Activity.deleteEpisode]: (id, blacklist = false) => apiActions.remove(`/queue/${id}?blacklist=${blacklist}`),
 };
 
 module.exports = mapValues(actions, (action, type) => createAction(type, action));

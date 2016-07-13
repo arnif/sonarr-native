@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getQueue} from '../../actions/activity';
+import {getQueue, deleteEpisode} from '../../actions/activity';
 import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
 import QueueItem from './QueueItem';
 import SerieDetails from '../Series/SerieDetails';
@@ -94,6 +94,7 @@ const stateToProps = (state) => ({
 const dispatchToProps = (dispatch) => {
   const actions = {
     getQueue,
+    deleteEpisode
   };
   return bindActionCreators(actions, dispatch);
 };

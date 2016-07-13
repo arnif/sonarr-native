@@ -22,6 +22,7 @@ module.exports = {
   Activity: keyMirror({
     getHistory: null,
     getQueue: null,
+    deleteEpisode: null,
   }),
   Modal: keyMirror({
     showModal: null,
