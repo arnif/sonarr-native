@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getQueue} from '../../actions/activity';
 import {BORDER_COLOR, BACKGROUND_GRAY} from '../../constants/brand';
-import HistoryItem from './HistoryItem';
+import QueueItem from './QueueItem';
 import SerieDetails from '../Series/SerieDetails';
 import EmptyState from '../Widgets/EmptyState';
 
@@ -70,7 +70,7 @@ class QueueList extends Component {
         style={{backgroundColor: BACKGROUND_GRAY}}
         dataSource={this.state.dataSource}
         renderRow={(item) => (
-          <HistoryItem item={item} onPress={() => this.navigate(item)} />
+          <QueueItem item={item} onPress={() => this.navigate(item)} />
           )
         }
         enableEmptySections
