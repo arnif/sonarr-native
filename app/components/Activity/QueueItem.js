@@ -73,6 +73,7 @@ const QueueItem = ({item, onPress}) => {
               <Text style={styles.seriesName} numberOfLines={1}>{item.getIn(['series', 'title'])}</Text>
             </TouchableHighlight>
             <Text numberOfLines={1}>{item.getIn(['episode', 'title'])}</Text>
+            {item.get('timeleft') && <Text style={styles.small}>Time left: {item.get('timeleft')}</Text>}
           </View>
           <View style={styles.rightViewWrapper}>
             <Text>

@@ -7,9 +7,9 @@ const getPercentageInPixels = (currentValue, total) => {
   if (currentValue === 0) {
     percentage = 0;
   } else {
-    percentage = total / currentValue;
+    percentage = currentValue / total;
   }
-  return screen.width * Math.min(1, percentage);
+  return screen.width * percentage;
 };
 
 const Progressbar = ({currentValue, totalValue}) => {
