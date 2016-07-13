@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   fileName: {
-    width: screen.width - 40,
+    width: screen.width - 45,
   },
   button: {
     padding: 8,
@@ -130,7 +130,7 @@ class EpisodeSearch extends Component {
                   }
                 >
                   <Text>
-                    <Icon name="download" color="white" />
+                    <Icon name="download" color="white" size={20} />
                   </Text>
                 </TouchableHighlight>
               </View>

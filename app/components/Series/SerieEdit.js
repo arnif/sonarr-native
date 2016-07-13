@@ -16,15 +16,12 @@ import {editSeries, getSeries, deleteSeries} from '../../actions/series';
 import {hideModal} from '../../actions/modal';
 import {BORDER_COLOR, RED, GREEN, GREEN_BORDER} from '../../constants/brand';
 import {SERIES_TYPES} from '../../constants/variables';
-// import {getAddOptions} from '../../helpers/addShowHelper';
-// import Label from '../Widgets/Label';
 import SmartImage from '../Widgets/SmartImage';
 import BottomPicker from '../Widgets/BottomPicker';
 
 const styles = {
   root: {
     flex: 1,
-    flexDirection: 'row',
     backgroundColor: 'white',
     padding: 10,
   },
@@ -33,12 +30,6 @@ const styles = {
     height: 120,
     marginRight: 20,
     borderRadius: 3,
-  },
-  serieWrapper: {
-    marginTop: 40,
-  },
-  textWrapper: {
-    // fontSize: 18,
   },
   pickerButtons: {
     flexDirection: 'column',
@@ -101,9 +92,7 @@ const styles = {
 class SerieEdit extends Component {
   constructor(props) {
     super(props);
-    console.log(props.serie);
     const {serie} = props;
-    console.log(props.profile.find(p => p.get('id') === serie.qualityProfileId));
     this.state = {
       showProfilePicker: false,
       showPathPicker: false,
@@ -157,20 +146,65 @@ class SerieEdit extends Component {
     });
   }
 
+  renderBottomPickers() {
+    const {profile, rootFolder} = this.props;
+    return (
+      <View>
+        {this.state.showProfilePicker &&
+          <BottomPicker
+            onSubmit={(value) => this.setState({
+              showProfilePicker: false,
+              selectedProfile: value,
+            })}
+            onCancel={() => this.setState({showProfilePicker: false})}
+            pickerItems={profile}
+            selectedItem={this.state.selectedProfile}
+          />
+        }
+
+        {this.state.showPathPicker &&
+          <BottomPicker
+            onSubmit={(value) => this.setState({
+              showPathPicker: false,
+              selectedPath: value,
+            })}
+            onCancel={() => this.setState({showPathPicker: false})}
+            pickerItems={rootFolder}
+            selectedItem={this.state.selectedPath}
+          />
+        }
+
+        {this.state.showSeriesTypePicker &&
+          <BottomPicker
+            onSubmit={(value) => this.setState({
+              showSeriesTypePicker: false,
+              selectedSeriesType: value,
+            })}
+            onCancel={() => this.setState({showSeriesTypePicker: false})}
+            pickerItems={SERIES_TYPES}
+            selectedItem={this.state.selectedSeriesType}
+          />
+        }
+      </View>
+    );
+  }
+
   render() {
-    const {serie, profile, rootFolder} = this.props;
+    const {serie} = this.props;
     return (
       <View style={styles.root}>
-        <TouchableHighlight style={styles.close} underlayColor="transparent" onPress={this.props.hideModal}>
-          <Icon name="close" size={22} color="#B9B9B9" />
-        </TouchableHighlight>
-        <View style={styles.serieWrapper}>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+          <TouchableHighlight underlayColor="transparent" onPress={this.props.hideModal}>
+            <Icon name="close" size={22} color="#B9B9B9" />
+          </TouchableHighlight>
+        </View>
+        <View>
+          <Text style={{alignSelf: 'center', marginBottom: 20, fontSize: 16}}>
+            Edit {serie.title}
+          </Text>
           <View style={{flexDirection: 'row'}}>
             <SmartImage item={fromJS(serie)} style={styles.posterImage} type="poster" />
-            <View style={styles.textWrapper}>
-              <Text>
-                {serie.title}
-              </Text>
+            <View style={{flexDirection: 'column'}}>
               <View style={styles.pickerButtons}>
                 <TouchableOpacity
                   style={styles.pickerButtonWrapper}
@@ -218,8 +252,6 @@ class SerieEdit extends Component {
                 </View>
               </View>
             </View>
-
-
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 20}}>
             <View style={{flexDirection: 'row'}}>
@@ -253,41 +285,7 @@ class SerieEdit extends Component {
           </View>
         </View>
 
-        {this.state.showProfilePicker &&
-          <BottomPicker
-            onSubmit={(value) => this.setState({
-              showProfilePicker: false,
-              selectedProfile: value,
-            })}
-            onCancel={() => this.setState({showProfilePicker: false})}
-            pickerItems={profile}
-            selectedItem={this.state.selectedProfile}
-          />
-        }
-
-        {this.state.showPathPicker &&
-          <BottomPicker
-            onSubmit={(value) => this.setState({
-              showPathPicker: false,
-              selectedPath: value,
-            })}
-            onCancel={() => this.setState({showPathPicker: false})}
-            pickerItems={rootFolder}
-            selectedItem={this.state.selectedPath}
-          />
-        }
-
-        {this.state.showSeriesTypePicker &&
-          <BottomPicker
-            onSubmit={(value) => this.setState({
-              showSeriesTypePicker: false,
-              selectedSeriesType: value,
-            })}
-            onCancel={() => this.setState({showSeriesTypePicker: false})}
-            pickerItems={SERIES_TYPES}
-            selectedItem={this.state.selectedSeriesType}
-          />
-        }
+        {this.renderBottomPickers()}
       </View>
     );
   }

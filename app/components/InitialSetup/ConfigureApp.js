@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from '../../actions/config';
 import * as apiActions from '../../actions/api';
 import {STORAGE_KEY} from '../../constants/variables';
-import {BLUE, BORDER_COLOR} from '../../constants/brand';
+import {BLUE, BORDER_COLOR, RED} from '../../constants/brand';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
@@ -77,7 +77,7 @@ class ConfigureApp extends Component {
   render() {
     return (
       <View style={styles.root}>
-        <Text style={styles.headline}>Configure the app <Icon name="rocket" size={24} color={BLUE} /></Text>
+        <Text style={styles.headline}>Configure the app <Icon name="rocket" size={24} color={RED} /></Text>
         <View>
           <Text style={styles.label}>Sonarr IP address</Text>
           <TextInput

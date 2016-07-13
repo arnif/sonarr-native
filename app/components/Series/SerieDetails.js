@@ -293,7 +293,7 @@ class SerieDetails extends Component {
             }
           >
             <Text>
-              <Icon name="search" color="white" />
+              <Icon name="search" color="white" size={20} />
             </Text>
           </TouchableHighlight>
           <View style={styles.divider} />
@@ -306,7 +306,7 @@ class SerieDetails extends Component {
             }
           >
             <Text>
-              <Icon name="user" color="white" />
+              <Icon name="user" color="white" size={20} />
             </Text>
           </TouchableHighlight>
         </View>
