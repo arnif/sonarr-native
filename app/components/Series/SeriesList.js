@@ -51,6 +51,7 @@ class SeriesList extends Component {
       name: serie.get('title'),
       passProps: {
         serieId: serie.get('id'),
+        navigator: this.props.navigator,
       },
     });
   }

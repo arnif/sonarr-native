@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {
   ActivityIndicator,
+  Dimensions,
   ListView,
   Image,
   View,
@@ -24,7 +25,8 @@ import {getImageUrl} from '../Widgets/SmartImage';
 import Label from '../Widgets/Label';
 import FullPageLoadingIndicator from '../Widgets/FullPageLoadingIndicator';
 import EpisodeDetails from './EpisodeDetails';
-// const screen = Dimensions.get('window');
+import SerieEdit from './SerieEdit';
+const screen = Dimensions.get('window');
 
 const PARALLAX_HEADER_HEIGHT = 200;
 const STICKY_HEADER_HEIGHT = 60;
@@ -92,8 +94,14 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: 'transparent',
+    flexDirection: 'row',
+  },
+
+  settingsWrench: {
+    paddingRight: 20,
   },
 
   sectionHeader: {
@@ -135,6 +143,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     padding: 5,
     paddingLeft: 20,
+    width: screen.width / 1.2,
   },
   // textWrapper: {
   //   width: screen.width / 2,
@@ -166,6 +175,7 @@ class SerieDetails extends Component {
     showModal: PropTypes.func.isRequired,
     onScroll: PropTypes.func,
     episodePending: PropTypes.bool.isRequired,
+    navigator: PropTypes.object.isRequired,
   };
 
   constructor() {
@@ -378,9 +388,16 @@ class SerieDetails extends Component {
               renderForeground={() => (
                 <View key="parallax-header" style={styles.parallaxHeader}>
                   <BlurView blurType="dark" style={styles.container}>
-                    <Text style={styles.sectionSpeakerText}>
+                    <Text style={styles.sectionSpeakerText} numberOfLines={1}>
                       {serie.get('title')}
                     </Text>
+                    <Icon
+                      name="wrench"
+                      color="white"
+                      size={26}
+                      style={styles.settingsWrench}
+                      onPress={() => this.props.showModal(<SerieEdit serie={serie} navigator={this.props.navigator} />)}
+                    />
                   </BlurView>
                 </View>
               )}

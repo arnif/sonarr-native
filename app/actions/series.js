@@ -14,6 +14,8 @@ const actions = {
   [Series.showFilter]: () => {},
   [Series.hideFilter]: () => {},
   [Series.sortSeries]: (filter) => filter,
+  [Series.editSeries]: (id, data) => apiActions.put(`/series/${id}`, data),
+  [Series.deleteSeries]: (id, deleteFiles = false) => apiActions.remove(`/series/${id}?deleteFiles=${deleteFiles}`),
 };
 
 module.exports = mapValues(actions, (action, type) => createAction(type, action));

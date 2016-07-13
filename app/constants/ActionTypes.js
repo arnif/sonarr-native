@@ -18,6 +18,8 @@ module.exports = {
     showFilter: null,
     hideFilter: null,
     sortSeries: null,
+    editSeries: null,
+    deleteSeries: null,
   }),
   Activity: keyMirror({
     getHistory: null,
