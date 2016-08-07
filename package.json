@@ -15,7 +15,7 @@
     "react": "15.2.0",
     "react-native": "^0.29.0",
     "react-native-blur": "^0.8.0",
-    "react-native-code-push": "^1.12.2-beta",
+    "react-native-code-push": "^1.14.1-beta",
     "react-native-parallax-scroll-view": "^0.18.2",
     "react-native-tab-navigator": "^0.3.2",
     "react-native-vector-icons": "^2.0.3",
