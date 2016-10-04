@@ -37,7 +37,7 @@ class App extends Component {
         const {hostname, apiKey} = JSON.parse(data);
         apiActions.setHostname(hostname);
         apiActions.setApiKey(apiKey);
-        this.setState({keyFound: true}); // eslint-disable-line
+        this.setState({keyFound: true});
       }
     });
 
