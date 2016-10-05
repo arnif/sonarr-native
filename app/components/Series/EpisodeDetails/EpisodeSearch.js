@@ -1,5 +1,13 @@
 import React, {Component, PropTypes} from 'react';
-import {Dimensions, View, Text, ListView, TouchableHighlight, StyleSheet} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  View,
+  Text,
+  ListView,
+  TouchableHighlight,
+  StyleSheet,
+} from 'react-native';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -9,7 +17,7 @@ import {hideModal} from '../../../actions/modal';
 import {BACKGROUND_GRAY, BORDER_COLOR, TEXT_GRAY, GREEN, GREEN_BORDER, YELLOW} from '../../../constants/brand';
 import {humanFileSize} from '../../../helpers/utilities';
 import Label from '../../Widgets/Label';
-import FullPageLoadingIndicator from '../../Widgets/FullPageLoadingIndicator';
+import EmptyState from '../../Widgets/EmptyState';
 
 const screen = Dimensions.get('window');
 
@@ -95,14 +103,28 @@ class EpisodeSearch extends Component {
   }
 
   render() {
-    const {pending} = this.props;
+    const {pending, episodeReleases} = this.props;
     // TODO fix days old (could be hrs or min even years ???)
     // TODO show rejected reason if there is any...
     return (
       <View style={{flex: 1}}>
-        {(pending) &&
-          <FullPageLoadingIndicator />
+        {episodeReleases && episodeReleases.size === 0 &&
+          <EmptyState text="No results" viewStyle={{marginTop: 0}} />
         }
+        {pending &&
+          <ActivityIndicator
+            animating={pending}
+            style={{
+              height: 80,
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            color="black"
+            size="large"
+          />
+        }
+
         <ListView
           style={styles.listView}
           dataSource={this.state.dataSource}

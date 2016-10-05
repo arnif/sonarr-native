@@ -6,7 +6,7 @@ const initialState = Immutable.fromJS({
   searchResults: null,
   pending: false,
   episodeReleases: null,
-  episodeReleasesPending: false,
+  episodeReleasesPending: true,
 });
 
 const actions = {
@@ -36,7 +36,7 @@ const actions = {
     },
   },
 
-  [Search.clearReleases]: (state) => state.merge({episodeReleases: []}),
+  [Search.clearReleases]: (state) => state.merge({episodeReleases: null}),
 };
 
 export default handleActions(actions, initialState);
