@@ -3,7 +3,7 @@
 
 # Sonarr Native
 
-A react native app for [Sonarr](www.sonarr.tv)
+A react native app for [Sonarr](https://sonarr.tv/)
 
 ## Instructions
 
