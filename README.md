@@ -15,3 +15,10 @@ A react native app for [Sonarr](www.sonarr.tv)
 npm install
 ```
 Then just run `react-native run-ios` or `react-native run-android` for the respective platform
+
+
+### Lint
+
+```
+npm run lint
+```
