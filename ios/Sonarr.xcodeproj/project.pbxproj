@@ -778,9 +778,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 1.0.1;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1.0.1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = H8A26VC5J9;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -803,8 +803,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.arnif.sonarrapp;
 				PRODUCT_NAME = Sonarr;
-				VERSIONING_SYSTEM = "apple-generic";
 				PROVISIONING_PROFILE = "";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -812,9 +812,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 1.0.1;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1.0.1;
 				DEVELOPMENT_TEAM = H8A26VC5J9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -836,8 +836,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.arnif.sonarrapp;
 				PRODUCT_NAME = Sonarr;
-				VERSIONING_SYSTEM = "apple-generic";
 				PROVISIONING_PROFILE = "";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -891,9 +891,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 1.0.1;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1.0.1;
 				DEVELOPMENT_TEAM = H8A26VC5J9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -915,8 +915,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.arnif.sonarrapp;
 				PRODUCT_NAME = Sonarr;
-				VERSIONING_SYSTEM = "apple-generic";
 				PROVISIONING_PROFILE = "";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Staging;
 		};
