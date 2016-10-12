@@ -14,6 +14,13 @@ A react native app for [Sonarr](https://sonarr.tv/)
 ```
 npm install
 ```
+
+or if [yarn](https://yarnpkg.com/) is more your thing:
+
+```
+yarn install
+```
+
 Then just run `react-native run-ios` or `react-native run-android` for the respective platform
 
 
