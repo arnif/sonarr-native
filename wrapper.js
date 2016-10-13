@@ -5,9 +5,10 @@ import createLogger from 'redux-logger';
 import App from './app/app';
 import * as reducers from './app/reducers';
 import promiseMiddleware from './app/lib/promiseMiddleware';
+import inAppNotificationMiddleware from './app/lib/inAppNotificationMiddleware';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 
-const middlewares = [promiseMiddleware];
+const middlewares = [promiseMiddleware, inAppNotificationMiddleware];
 if (process.env.NODE_ENV === 'development') {
   const logger = createLogger();
   middlewares.push(logger);

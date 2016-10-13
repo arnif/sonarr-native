@@ -3,6 +3,7 @@ import {StatusBar, View, TouchableHighlight, Navigator, Text, StyleSheet} from '
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {BLUE, BORDER_COLOR} from '../../constants/brand';
 import {NAV_HEIGHT} from '../../constants/variables';
+import NotificationWrapper from '../Widgets/NotificationWrapper';
 
 const styles = StyleSheet.create({
   leftNavButtonText: {
@@ -127,6 +128,15 @@ class NavigatorWrapper extends Component { // https://medium.com/@dabit3/react-n
     );
   }
 
+  renderNavigationBar() {
+    return (
+      <Navigator.NavigationBar
+        style={this.state.index === 0 ? styles.nav : styles.navTransparent}
+        routeMapper={this.NavigationBarRouteMapper}
+      />
+    );
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -139,13 +149,9 @@ class NavigatorWrapper extends Component { // https://medium.com/@dabit3/react-n
             this.renderScene(route, navigator)
           }
           onWillFocus={(route) => this.handleWillFocus(route)}
-          navigationBar={
-            <Navigator.NavigationBar
-              style={this.state.index === 0 ? styles.nav : styles.navTransparent}
-              routeMapper={this.NavigationBarRouteMapper}
-            />
-           }
+          navigationBar={this.renderNavigationBar()}
         />
+        <NotificationWrapper />
       </View>
     );
   }

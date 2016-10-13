@@ -35,4 +35,8 @@ module.exports = {
     downloadRelease: null,
     clearReleases: null,
   }),
+  Notification: keyMirror({
+    setNotificationText: null,
+    clearNotificationText: null,
+  }),
 };
