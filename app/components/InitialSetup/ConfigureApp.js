@@ -7,7 +7,7 @@ import * as apiActions from '../../actions/api';
 import {STORAGE_KEY} from '../../constants/variables';
 import {BLUE, BORDER_COLOR, RED} from '../../constants/brand';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import urlRegex from 'url-regex';
 const styles = StyleSheet.create({
   root: {
     flex: 1,
@@ -59,20 +59,36 @@ class ConfigureApp extends Component {
 
   onPressButton() {
     apiActions.setHostname(this.state.hostname);
-    apiActions.setApiKey(this.state.apiKey);
-    this.props.getConfig().then(({payload}) => {
-      if (payload) {
-        // save to async storage
-        AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
-        if (this.props.onSuccess) {
-          this.props.onSuccess();
+    if (!this.state.apiKey) {
+      Alert.alert('Error', 'Sonarr API key missing.');
+    } else {
+      apiActions.setApiKey(this.state.apiKey);
+      this.props.getConfig().then(({payload}) => {
+        if (payload) {
+          // save to async storage
+          AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+          if (this.props.onSuccess) {
+            this.props.onSuccess();
+          }
+        } else {
+          Alert.alert('Error', 'Unable to save, please try again');
         }
-      } else {
-        Alert.alert('Error', 'Unable to save, please try again');
-      }
-    });
+      });
+    }
   }
 
+  isValidURL() {
+    if (!urlRegex({exact: true}).test(this.state.hostname)) {
+      const newUrl = `http://${this.state.hostname}`;
+      if (urlRegex({exact: true}).test(newUrl)) {
+        this.setState({
+          hostname: newUrl,
+        });
+      } else {
+        Alert.alert('Error', 'Invalid URL');
+      }
+    }
+  }
 
   render() {
     return (
@@ -81,7 +97,10 @@ class ConfigureApp extends Component {
         <View>
           <Text style={styles.label}>Sonarr IP address</Text>
           <TextInput
+            autoCapitalize="none"
+            autoCorrect={false}
             style={styles.textInput}
+            onEndEditing={() => this.isValidURL()}
             onChangeText={(hostname) => this.setState({hostname})}
             value={this.state.hostname}
             placeholder={apiActions.getHostName() || 'http://123.1.2.4:8989'}
@@ -90,6 +109,7 @@ class ConfigureApp extends Component {
           <Text style={styles.label}>Sonarr API key</Text>
           <TextInput
             style={styles.textInput}
+            autoCorrect={false}
             onChangeText={(apiKey) => this.setState({apiKey})}
             value={this.state.apiKey}
             placeholder={apiActions.getApiKey() || 'abcd3rdakflk23'}
