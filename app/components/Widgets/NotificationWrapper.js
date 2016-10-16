@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, Animated} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {clearNotificationText} from '../../actions/notification';
@@ -9,12 +9,17 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   root: {
-    position: 'relative',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
   },
   basicContainer: {
-    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
+    overflow: 'hidden',
   },
   modalContainer: {
     width: SCREEN_WIDTH,
@@ -34,26 +39,64 @@ class NotificationWrapper extends Component {
     clearNotificationText: PropTypes.func.isRequired,
   }
 
-  componentDidUpdate() {
-    setTimeout(() => {
-      if (this.props.text) {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      animTransform: new Animated.Value(100),
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // keep the last given text to keep it displayed while
+    // animating leave
+    if (!nextProps.text && this.props.text) {
+      this.setState({backupText: this.props.text});
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // animate text in
+    if (this.props.text && !prevProps.text) {
+      Animated.spring(this.state.animTransform, {
+        toValue: 0,
+      }).start();
+
+      // clear notification after a delay.
+      // (this should be handled in the action..)
+      setTimeout(() => {
         this.props.clearNotificationText();
-      }
-    }, 5000);
+        this.timeout = undefined;
+      }, 5e3);
+    }
+
+    // animate text out
+    if (!this.props.text && prevProps.text) {
+      Animated.spring(this.state.animTransform, {
+        toValue: 100,
+        tension: -10,
+      }).start();
+    }
   }
 
   render() {
-    if (!this.props.text) {
-      return null;
-    }
+    const {animTransform, backupText} = this.state;
     return (
-      <View style={styles.root}>
+      <View style={styles.root} pointerEvents='none'>
         <View style={styles.basicContainer}>
-          <View style={styles.modalContainer}>
+
+          <Animated.View
+            style={[styles.modalContainer, {
+              transform: [{
+                translateY: animTransform,
+              }],
+            }]}
+          >
             <Text style={styles.notificationText}>
-              {this.props.text}
+              {this.props.text || backupText}
             </Text>
-          </View>
+          </Animated.View>
+
         </View>
       </View>
     );
