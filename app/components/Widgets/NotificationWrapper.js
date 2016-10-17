@@ -82,7 +82,7 @@ class NotificationWrapper extends Component {
   render() {
     const {animTransform, backupText} = this.state;
     return (
-      <View style={styles.root} pointerEvents='none'>
+      <View style={styles.root} pointerEvents="none">
         <View style={styles.basicContainer}>
 
           <Animated.View
