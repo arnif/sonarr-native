@@ -31,7 +31,7 @@ class App extends Component {
   componentDidMount() {
       // this.setState({initialLoad: false}); // eslint-disable-line
     AsyncStorage.getItem(STORAGE_KEY).then((data) => {
-      console.log(STORAGE_KEY);
+      console.log('AsyncStorage', STORAGE_KEY, data);
       this.setState({initialLoad: false}); // eslint-disable-line
       if (data) {
         const {hostname, apiKey} = JSON.parse(data);

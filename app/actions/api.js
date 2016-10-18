@@ -53,3 +53,10 @@ export function setHostname(host) {
 export function getHostName() {
   return HOSTNAME;
 }
+
+export function addBrowserAuthToHostname(user, pass) {
+  // const hostname = `http://test:test@139.59.166.50:8989`;
+  const split = HOSTNAME.split('//');
+  const newHost = `${split[0]}//${user}:${pass}@${split[1]}`;
+  HOSTNAME = newHost;
+}

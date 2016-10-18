@@ -40,6 +40,15 @@ const styles = StyleSheet.create({
 
 });
 
+const withoutAuthStuff = (host) => {
+  if (host && host.indexOf('@') > 0) {
+    const split = host.split('//');
+    const rest = split[1].split('@');
+    return `${split[0]}//${rest[1]}`;
+  }
+  return host;
+};
+
 class ConfigureApp extends Component {
 
   static propTypes = {
@@ -68,7 +77,8 @@ class ConfigureApp extends Component {
           // save to async storage
           AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
           if (this.props.onSuccess) {
-            this.props.onSuccess();
+            console.log('success');
+            this.props.onSuccess(); // TODO hmm not called ?
           }
         } else {
           Alert.alert('Error', 'Unable to save, please try again');
@@ -103,7 +113,7 @@ class ConfigureApp extends Component {
             onEndEditing={() => this.isValidURL()}
             onChangeText={(hostname) => this.setState({hostname})}
             value={this.state.hostname}
-            placeholder={apiActions.getHostName() || 'http://123.1.2.4:8989'}
+            placeholder={withoutAuthStuff(apiActions.getHostName()) || 'http://123.1.2.4:8989'}
           />
 
           <Text style={styles.label}>Sonarr API key</Text>

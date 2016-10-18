@@ -1,7 +1,7 @@
 import React from 'react';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {Provider} from 'react-redux';
-import createLogger from 'redux-logger';
+// import createLogger from 'redux-logger';
 import App from './app/app';
 import * as reducers from './app/reducers';
 import promiseMiddleware from './app/lib/promiseMiddleware';
@@ -10,8 +10,8 @@ import inAppNotificationMiddleware from './app/lib/inAppNotificationMiddleware';
 
 const middlewares = [promiseMiddleware, inAppNotificationMiddleware];
 if (process.env.NODE_ENV === 'development') {
-  const logger = createLogger();
-  middlewares.push(logger);
+  // const logger = createLogger();
+  // middlewares.push(logger);
 }
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const rootReducer = combineReducers({...reducers});

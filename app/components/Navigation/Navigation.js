@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
@@ -11,6 +11,7 @@ import {BLUE} from '../../constants/brand';
 import SeriesNavigation from './SeriesNavigation';
 import ActivityNavigation from './ActivityNavigation';
 import ConfigureApp from '../InitialSetup/ConfigureApp';
+import AuthenticationPrompt from '../InitialSetup/AuthenticationPrompt';
 import ModalWrapper from '../Modal/ModalWrapper';
 
 const styles = StyleSheet.create({
@@ -34,6 +35,7 @@ class Navigation extends Component {
     this.state = {
       selectedTab: 'series',
       loaded: false,
+      authProblems: false,
     };
   }
 
@@ -64,14 +66,13 @@ class Navigation extends Component {
 
     this.props.getSystemStatus().then((statusResponse) => {
       console.log('system status', statusResponse);
-      if (statusResponse.payload.authentication === 'basic' || statusResponse.payload.authentication === 'forms') {
-        axios.get(apiActions.getHostName()).then(() => {}).catch((error) => {
+      if (statusResponse.payload &&
+        (statusResponse.payload.authentication === 'basic' || statusResponse.payload.authentication === 'forms')) {
+        axios.get(apiActions.getHostName())
+        .then(() => { console.log('authenticated'); })
+        .catch((error) => {
           if (error.status === 401) {
-            Alert.alert(
-              'Error',
-              'Unauthorized, App will work but no images are displayed...sorry ' +
-              '(turn of authentication) or help out at https://github.com/arnif/sonarr-native'
-           );
+            this.setState({authProblems: true});
           }
         });
       }
@@ -81,6 +82,13 @@ class Navigation extends Component {
   render() {
     if (!this.state.loaded) {
       return null;
+    }
+    if (this.state.authProblems) {
+      return (
+        <AuthenticationPrompt
+          onSuccess={() => this.setState({authProblems: false})}
+        />
+      );
     }
     return (
       <View style={{flex: 1}}>
