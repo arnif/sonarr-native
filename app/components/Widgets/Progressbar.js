@@ -21,7 +21,7 @@ const Progressbar = ({currentValue, totalValue}) => {
         alignSelf: 'flex-start',
         backgroundColor: '#ccc',
         width: screen.width,
-        height: 2}}
+        height: 4}}
     >
       <View style={{backgroundColor: '#36c6f4', width: percentageInPixels}} />
     </View>
